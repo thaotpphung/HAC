@@ -25,8 +25,7 @@ public class P2P {
         	initialIPList.add("150.243.200.173");
         	initialIPList.add("150.243.200.142");
         	// Create socket
-        	socket = new DatagramSocket();
-        	
+        	socket = new DatagramSocket(9876);
         	// Send IP address to other machines
         	for (int i = 0; i < initialIPList.size(); i++)
         	{
@@ -39,9 +38,10 @@ public class P2P {
         	}
            
         	// wait to receive IP addresses from other machines
-            
+        	
+        	
             byte[] incomingData = new byte[1024];
-
+            
             while (true) 
             {
             	// receive data from an IP
@@ -53,7 +53,7 @@ public class P2P {
                 int port = incomingPacket.getPort();
                 
                 System.out.println("Received IP from peer: " + message);
-                System.out.println("Other peer IP:"+ otherIP.getHostAddress());
+                System.out.println("Other peer IP: "+ otherIP.getHostAddress());
                 System.out.println("Other peer port:"+ port);
                 
                 String reply = "Thank you for the message";
@@ -61,11 +61,11 @@ public class P2P {
                 
                 DatagramPacket replyPacket =
                         new DatagramPacket(data, data.length, otherIP, port);
-                
-                socket.send(replyPacket);
+//                socket.close();
+//                socket.send(replyPacket);
                 Thread.sleep(2000);
-                socket.close();
             }
+            
         } 
         catch (SocketException e) 
         {
