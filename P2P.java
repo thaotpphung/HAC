@@ -43,12 +43,6 @@ public class P2P {
 		return test.get(key);
 	}
 	
-	//clears the map of all timestamps
-	public synchronized void clearMap()
-	{
-		test.clear();
-	}
-	
 	//removes a timestamp from the map
 	public synchronized void removeFromMap(String IP)
 	{

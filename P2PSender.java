@@ -33,6 +33,10 @@ public class P2PSender implements Runnable
 			while(IPs.hasNext())
 			{
 				String current = IPs.next();
+				
+				//removes peer from map
+				peer.removeFromMap(current);
+				
 				InetAddress destIP = InetAddress.getByName(current);
 				String sentence = myIP.toString();
 				byte[] data = sentence.getBytes();
@@ -40,8 +44,6 @@ public class P2PSender implements Runnable
 				socket.send(sendPacket);
 				System.out.println("IP sent to " + current);
 			}
-			//clears the map so that there are no active peers
-			peer.clearMap();
 			//sleeps a random amount of time from 0-30 seconds
 			Thread.sleep(timer.nextInt(30000));
 			while(true)
