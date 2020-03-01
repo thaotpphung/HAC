@@ -5,11 +5,11 @@ import java.net.*;
 import java.util.ArrayList;
 
 public class P2P {
-	private double version;
+//	private double version;
 	DatagramSocket socket = null;
 	
-	public P2P(double version) {
-		this.version = version;
+	public P2P() {
+//		this.version = version;
 	}
 	
 	public void createAndListenSocket() 
@@ -44,22 +44,23 @@ public class P2P {
 
             while (true) 
             {
+            	// receive data from an IP
                 DatagramPacket incomingPacket = new DatagramPacket(incomingData, 
                 		incomingData.length);
                 socket.receive(incomingPacket);
                 String message = new String(incomingPacket.getData());
-                InetAddress IPAddress1 = incomingPacket.getAddress();
+                InetAddress otherIP = incomingPacket.getAddress();
                 int port = incomingPacket.getPort();
                 
-                System.out.println("Received message from client: " + message);
-                System.out.println("Client IP:"+IPAddress1.getHostAddress());
-                System.out.println("Client port:"+port);
+                System.out.println("Received IP from peer: " + message);
+                System.out.println("Other peer IP:"+ otherIP.getHostAddress());
+                System.out.println("Other peer port:"+ port);
                 
                 String reply = "Thank you for the message";
                 byte[] data = reply.getBytes();
                 
                 DatagramPacket replyPacket =
-                        new DatagramPacket(data, data.length, IPAddress1, port);
+                        new DatagramPacket(data, data.length, otherIP, port);
                 
                 socket.send(replyPacket);
                 Thread.sleep(2000);
@@ -81,6 +82,7 @@ public class P2P {
     }
 	
 	public static void main(String args[]) {  
-		
+		P2P peer = new P2P();
+        peer.createAndListenSocket();
 	}
 }
