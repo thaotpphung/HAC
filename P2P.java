@@ -19,28 +19,26 @@ public class P2P {
         	// get my IP address
         	InetAddress myIP = InetAddress.getByName("localhost");
         	
-        	
-        	// send my IP to other machines
-        	
         	// Create a socket for each IP and send data
         	// List of IP addresses that I'm going to send to
         	ArrayList<String> initialIPList = new ArrayList<>();
         	initialIPList.add("150.243.200.173");
         	initialIPList.add("150.243.200.142");
-        	// Create 
+        	// Create socket
         	socket = new DatagramSocket();
         	
+        	// Send IP address to other machines
         	for (int i = 0; i < initialIPList.size(); i++)
         	{
-        		 byte[] incomingData = new byte[1024];
-                 String sentence = myIP.toString();
-                 byte[] data = sentence.getBytes();
-                 DatagramPacket sendPacket = new DatagramPacket(data, data.length, destIP, 9876);
-                 socket.send(sendPacket);
-                 System.out.println("IP sent from " + myIP.toString());
+        		InetAddress destIP = InetAddress.getByName(initialIPList.get(i));;
+        		String sentence = myIP.toString();
+	            byte[] data = sentence.getBytes();
+	            DatagramPacket sendPacket = new DatagramPacket(data, data.length, destIP, 9876);
+	            socket.send(sendPacket);
+	            System.out.println("IP sent from " + myIP.toString());
         	}
            
-    
+        	// wait to receive IP addresses from other machines
             
             byte[] incomingData = new byte[1024];
 
