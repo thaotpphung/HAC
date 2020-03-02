@@ -10,7 +10,8 @@ public class P2PReceiver implements Runnable
 {
 	private P2P peer;
 	private DatagramSocket socket;
-	P2PReceiver(DatagramSocket socket, P2P peer)
+	
+	public P2PReceiver(DatagramSocket socket, P2P peer)
 	{
 		this.peer = peer;
 		this.socket = socket;
