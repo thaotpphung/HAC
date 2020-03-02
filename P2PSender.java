@@ -13,7 +13,8 @@ public class P2PSender implements Runnable
 	private P2P peer;
 	private DatagramSocket socket;
 	private Random timer;
-	P2PSender(DatagramSocket socket, P2P peer)
+	
+	public P2PSender(DatagramSocket socket, P2P peer)
 	{
 		this.peer = peer;
 		this.socket = socket;
@@ -27,9 +28,9 @@ public class P2PSender implements Runnable
 			//gets local ip address
 			InetAddress myIP = InetAddress.getByName("localhost");
 			
-			//gets an iterator through the active IP adresses
+			//gets an iterator through the active IP addresses
 			Iterator<String> IPs = peer.getIterator();
-			//iterates through active ip adresses
+			//iterates through active ip addresses
 			while(IPs.hasNext())
 			{
 				String current = IPs.next();
