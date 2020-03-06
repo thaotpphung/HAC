@@ -54,7 +54,7 @@ public class P2PSender implements Runnable
 				while(IPs.hasNext())
 				{
 					String current = IPs.next();
-					if(peer.getValue(current) >= 30000 + System.currentTimeMillis())//if peer has timed out
+					if(peer.getValue(current) <= System.currentTimeMillis() - 30000)//if peer has not been active in the last 30 seconds
 					{
 						peer.removeFromMap(current);
 					}
