@@ -6,14 +6,16 @@ import java.util.Iterator;
 import java.util.Map;
 
 public class P2P {
-//	private double version;
+	// private double version;
 	private DatagramSocket socket = null;
+	// Map that maps IP addresses to time stamps
 	private Map<String, Long> test;
 	
 	public P2P() 
 	{
 		try
 		{
+			// create my socket
 			this.socket = new DatagramSocket(9876);
 		}
 		catch (SocketException e) 
@@ -21,11 +23,12 @@ public class P2P {
             e.printStackTrace();
         }
 		this.test = new HashMap<String, Long>();
-		//initial ip addresses
+		// initialize the list of all peers' IP addresses
 		test.put("localhost", new Long(0));
+		
 	}
 	
-	//adds a timestamp to the map, will replace existing ones
+	//adds a time stamp to the map, will replace existing ones
 	public synchronized void addToMap(String IP, Long val)
 	{
 		test.put(IP, val);
@@ -37,13 +40,13 @@ public class P2P {
 		return test.keySet().iterator();
 	}
 	
-	//gets the timestamp associated with a key
+	//gets the time stamp associated with a key
 	public synchronized long getValue(String key)
 	{
 		return test.get(key);
 	}
 	
-	//removes a timestamp from the map
+	//removes a time stamp from the map
 	public synchronized void removeFromMap(String IP)
 	{
 		test.remove(IP);
