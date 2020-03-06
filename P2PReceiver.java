@@ -23,27 +23,27 @@ public class P2PReceiver implements Runnable
 		{
 			byte[] incomingData = new byte[1024];
 
-            while(true) 
-            {
-            	// receive data from another peer
-                DatagramPacket incomingPacket = new DatagramPacket(incomingData, incomingData.length);
-                socket.receive(incomingPacket);
+            		while(true) 
+            		{
+            			// receive data from another peer
+                		DatagramPacket incomingPacket = new DatagramPacket(incomingData, incomingData.length);
+                		socket.receive(incomingPacket);
                 
-                //get peer's IP address and output it
-                InetAddress otherIP = incomingPacket.getAddress();
-                System.out.println("IP address received from " + otherIP.toString().substring(1));
-                
-                //update the map with the correct timestamp
-                peer.addToMap(otherIP.toString().substring(1), new Long(System.currentTimeMillis()));
-            }
+                		//get peer's IP address and output it
+                		InetAddress otherIP = incomingPacket.getAddress();
+                		System.out.println("IP address received from " + otherIP.toString().substring(1));
+				                
+                		//update the map with the correct timestamp
+                		peer.addToMap(otherIP.toString().substring(1), new Long(System.currentTimeMillis()));
+            		}
 		}
 		catch (SocketException e) 
-        {
-            e.printStackTrace();
-        } 
-        catch (IOException i) 
-        {
-            i.printStackTrace();
-        } 
+        	{
+            		e.printStackTrace();
+        	} 
+        	catch (IOException i) 
+        	{
+            		i.printStackTrace();
+        	} 
 	}
 }
