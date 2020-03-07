@@ -25,7 +25,7 @@ public class P2PSender implements Runnable
 	{
 		try
 		{
-			// first, send my IP address to other peers
+			// first, send my IP address to other peers, initial setup
 			// get local IP address to send to other peers
 			InetAddress myIP = InetAddress.getByName("localhost");
 			
@@ -46,7 +46,7 @@ public class P2PSender implements Runnable
 				byte[] data = sentence.getBytes();
 				DatagramPacket sendPacket = new DatagramPacket(data, data.length, destIP, 9876);
 				socket.send(sendPacket);
-				System.out.println("IP sent to " + currentIP.getIp());
+				System.out.println("IP sent to " + currentIP.getIp()+ "\n");
 			}
 			// sleep a random amount of time from 0-30 seconds
 			Thread.sleep(timer.nextInt(30000));
@@ -71,7 +71,7 @@ public class P2PSender implements Runnable
 						byte[] data = sentence.getBytes();
 						DatagramPacket sendPacket = new DatagramPacket(data, data.length, destIP, 9876);
 						socket.send(sendPacket);
-						System.out.println("IP sent to " + currentIP.getIp());
+						System.out.println("IP sent to " + currentIP.getIp() + "\n");
 					}
 				}
 				Thread.sleep(timer.nextInt(30000));
