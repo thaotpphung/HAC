@@ -32,13 +32,16 @@ public class P2PSender implements Runnable
 			// get the active IP list
 			ArrayList<PeerInfo> ipList = peer.getList();
 			
+			ArrayList<PeerInfo> inActiveList = new ArrayList<PeerInfo>();
+			
 			// iterate through active IP addresses
 			for (int i = 0; i < ipList.size(); i++)
 			{
+				System.out.println("loop the " + i + " time: " +ipList.get(i).getIp());
 				PeerInfo currentIP = ipList.get(i);
 				
-				// remove peer from map to repopulate the map later
-				peer.removeFromList(currentIP);
+				inActiveList.add(currentIP);
+				
 				
 				// send my IP address to the current peer
 				InetAddress destIP = InetAddress.getByName(currentIP.getIp());
@@ -48,6 +51,13 @@ public class P2PSender implements Runnable
 				socket.send(sendPacket);
 				System.out.println("IP sent to " + currentIP.getIp()+ "\n");
 			}
+			
+			// remove peer from map to re-populate the map later
+			for (int i = 0; i < ipList.size();i++)
+			{
+				ipList.clear();
+			}
+			
 			// sleep a random amount of time from 0-30 seconds
 			Thread.sleep(timer.nextInt(30000));
 			
@@ -62,6 +72,8 @@ public class P2PSender implements Runnable
 					PeerInfo currentIP = ipList.get(i);
 					if(currentIP.getlastReceived() <= System.currentTimeMillis() - 30000)//if peer has not been active in the last 30 seconds
 					{
+						System.out.print("time out: ");
+						System.out.print("time last added: " + currentIP.getlastReceived() + "; time now: " + System.currentTimeMillis());
 						peer.removeFromList(currentIP);
 					}
 					else//if peer is active
