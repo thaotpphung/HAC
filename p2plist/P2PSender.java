@@ -39,10 +39,6 @@ public class P2PSender implements Runnable
 			{
 				System.out.println("loop the " + i + " time: " +ipList.get(i).getIp());
 				PeerInfo currentIP = ipList.get(i);
-				
-				inActiveList.add(currentIP);
-				
-				
 				// send my IP address to the current peer
 				InetAddress destIP = InetAddress.getByName(currentIP.getIp());
 				String sentence = myIP.toString();
@@ -53,10 +49,7 @@ public class P2PSender implements Runnable
 			}
 			
 			// remove peer from map to re-populate the map later
-			for (int i = 0; i < ipList.size();i++)
-			{
-				ipList.clear();
-			}
+			ipList.clear();
 					
 			// sleep a random amount of time from 0-30 seconds
 			Thread.sleep(timer.nextInt(30000));
