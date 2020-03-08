@@ -52,6 +52,19 @@ public class P2P {
 	public synchronized ArrayList<PeerInfo> getList() {
 		return this.activeList;
 	}
+	
+	public synchronized void printReport(ArrayList<PeerInfo> list)
+	{
+		System.out.println("Report:");
+		for (PeerInfo aPeer : list)
+		{
+			if (aPeer.getStatus() == true) {
+				System.out.println(aPeer.getIp() + ": " + "on");
+			} else {
+				System.out.println(aPeer.getIp() + ": " + "off");
+			}
+		}
+	}
 
 	public static void main(String args[]) {
 		P2P peer = new P2P();
