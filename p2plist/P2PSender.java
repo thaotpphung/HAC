@@ -32,8 +32,6 @@ public class P2PSender implements Runnable
 			// get the active IP list
 			ArrayList<PeerInfo> ipList = peer.getList();
 			
-			ArrayList<PeerInfo> inActiveList = new ArrayList<PeerInfo>();
-			
 			// iterate through active IP addresses
 			for (int i = 0; i < ipList.size(); i++)
 			{
