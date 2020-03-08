@@ -1,4 +1,4 @@
-package p2pt;
+package p2pcopy;
 
 import java.io.IOException;
 import java.net.DatagramPacket;

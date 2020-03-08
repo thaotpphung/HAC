@@ -1,4 +1,4 @@
-package p2pt;
+package p2pcopy;
 
 public class PeerInfo {
 	private String ip;
@@ -32,7 +32,7 @@ public class PeerInfo {
 	@Override
 	public boolean equals(Object obj) {
 		if (obj instanceof PeerInfo) {
-			return ((PeerInfo) obj).ip == ip;
+			return ( ((PeerInfo) obj).ip == ip && ((PeerInfo) obj).lastReceived == lastReceived );
 		}
 		return false;
 	}
