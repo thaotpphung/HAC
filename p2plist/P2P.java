@@ -44,8 +44,14 @@ public class P2P {
 	}
 
 	// a peer is offline, change status to off
-	public synchronized void turnOff(PeerInfo aPeer) {
-		aPeer.setStatus(false);
+	public synchronized void turnOff(String ip) {
+		for (int i = 0; i < activeList.size(); i++)
+		{
+			if(activeList.get(i).getIp().equals(ip))
+			{
+				activeList.get(i).setStatus(false);
+			}
+		}
 	}
 
 	// return the list of active IP addresses
