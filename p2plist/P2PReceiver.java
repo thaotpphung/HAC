@@ -34,7 +34,7 @@ public class P2PReceiver implements Runnable
                 		System.out.println("IP address received from " + otherIP.toString().substring(1) + "\n");
 				                
                 		//update the map with the correct time stamp
-                		peer.addToList(otherIP.toString().substring(1), new Long(System.currentTimeMillis()));
+                		peer.turnOn(otherIP.toString().substring(1), System.currentTimeMillis());
             		}
 		}
 		catch (SocketException e) 
