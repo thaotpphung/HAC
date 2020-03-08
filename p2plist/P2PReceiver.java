@@ -31,10 +31,12 @@ public class P2PReceiver implements Runnable
                 
                 		// get peer's IP address and output it
                 		InetAddress otherIP = incomingPacket.getAddress();
-                		System.out.println("IP address received from " + otherIP.toString().substring(1) + "\n");
 				                
                 		//update the map with the correct time stamp
                 		peer.turnOn(otherIP.toString().substring(1), System.currentTimeMillis());
+                		
+                		peer.printReport(peer.getList());
+                		
             		}
 		}
 		catch (SocketException e) 
