@@ -1,32 +1,44 @@
 package p2p;
 
 public class PeerInfo {
-	private String ip;
-	private long lastReceived;
-
-	public PeerInfo(String ip, long lastReceived) {
-		this.ip = ip;
-		this.lastReceived = lastReceived;
+	private String IP;
+	private long timeStamp;
+	private boolean isActive;
+	
+	public PeerInfo(String IP, long timeStamp)
+	{
+		this.IP = IP;
+		this.timeStamp = timeStamp;
+		isActive = true;
 	}
 
-	public String getIp() {
-		return ip;
-	}
-
-	public void setIp(String ip) {
-		this.ip = ip;
-	}
-
-	public long getlastReceived() {
-		return lastReceived;
-	}
-
-	public void setlastReceived(long lastReceived) {
-		this.lastReceived = lastReceived;
+	public String getIPAddress()
+	{
+		return IP;
 	}
 	
-	public PeerInfo getPeerInfo(String ip) {
-		return this;
+	public void updateTimeStamp(long timeStamp)
+	{
+		this.timeStamp = timeStamp;
 	}
-
+	
+	public long getTimeStamp()
+	{
+		return timeStamp;
+	}
+	
+	public boolean getStatus()
+	{
+		return isActive;
+	}
+	
+	public void updateStatus(boolean status)
+	{
+		isActive = status;
+	}
+	
+	public String toString()
+	{
+		return new String(IP + " " + isActive);
+	}
 }

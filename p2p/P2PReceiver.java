@@ -11,10 +11,10 @@ public class P2PReceiver implements Runnable
 	private P2P peer;
 	private DatagramSocket socket;
 	
-	public P2PReceiver(DatagramSocket socket, P2P peer)
+	public P2PReceiver(P2P peer)
 	{
 		this.peer = peer;
-		this.socket = socket;
+		this.socket = peer.getSocket();
 	}
 	
 	public void run()
@@ -22,26 +22,28 @@ public class P2PReceiver implements Runnable
 		try
 		{
 			byte[] incomingData = new byte[1024];
+			int targetIndex;
 
-            		while(true) 
-            		{
-            			// receive data from another peer
-                		DatagramPacket incomingPacket = new DatagramPacket(incomingData, incomingData.length);
-                		socket.receive(incomingPacket);
-                
-                		// get peer's IP address and output it
-                		InetAddress otherIP = incomingPacket.getAddress();
-                		System.out.println("IP address received from " + otherIP.toString().substring(1) + "\n");
-				                
-                		//update the map with the correct time stamp
-                		peer.addToList(otherIP.toString().substring(1), new Long(System.currentTimeMillis()));
-            		}
+        	while(true) 
+        	{
+        		// receive data from another peer
+            	DatagramPacket incomingPacket = new DatagramPacket(incomingData, incomingData.length);
+            	socket.receive(incomingPacket);
+            
+            	//get peer's IP address
+            	InetAddress otherIP = incomingPacket.getAddress();
+			                
+            	//update the map with the correct timestamp and status
+            	targetIndex = peer.searchPeerWithIP(otherIP.toString().substring(1));
+            	peer.updatePeerTimestamp(targetIndex, System.currentTimeMillis());
+            	peer.updatePeerStatus(targetIndex, true);
+        	}
 		}
 		catch (SocketException e) 
         {
-			e.printStackTrace();
+            e.printStackTrace();
         } 
-		catch (IOException i) 
+        catch (IOException i) 
         {
             i.printStackTrace();
         } 
