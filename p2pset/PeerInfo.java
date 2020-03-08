@@ -32,7 +32,7 @@ public class PeerInfo {
 	@Override
 	public boolean equals(Object obj) {
 		if (obj instanceof PeerInfo) {
-			return ((PeerInfo) obj).ip == ip;
+			return ((PeerInfo) obj).ip.equals(ip);
 		}
 		return false;
 	}
