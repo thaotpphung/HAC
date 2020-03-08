@@ -44,7 +44,6 @@ public class P2PSender implements Runnable
 				byte[] data = sentence.getBytes();
 				DatagramPacket sendPacket = new DatagramPacket(data, data.length, destIP, 9876);
 				socket.send(sendPacket);
-				System.out.println("IP sent to " + currentIP.getIp()+ "\n");
 			}
 			
 					
@@ -63,8 +62,8 @@ public class P2PSender implements Runnable
 					{
 						if(aPeer.getlastReceived() <= System.currentTimeMillis() - 30000)//if peer has not been active in the last 30 seconds
 						{
-							System.out.print("time out: ");
-							peer.turnOff(aPeer);
+							peer.turnOff(aPeer.getIp());
+							peer.printReport(peer.getList());
 						}
 						else//if peer is active
 						{
@@ -73,7 +72,6 @@ public class P2PSender implements Runnable
 							byte[] data = sentence.getBytes();
 							DatagramPacket sendPacket = new DatagramPacket(data, data.length, destIP, 9876);
 							socket.send(sendPacket);
-							System.out.println("IP sent to " + aPeer.getIp() + "\n");
 						}
 					}	
 				}
