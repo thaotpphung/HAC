@@ -7,6 +7,14 @@ import java.util.ArrayList;
 
 public class CSDriver
 {
+	/**
+	 * a testing driver class
+	 * it has nothing to do with sending data to / receiving data from other hosts yet
+	 * the sole purpose of this driver class to have each host an updated list of the participating hosts
+	 * so that this list can be used when the host is dead and comes alive again later
+	 * upon running this code, be sure you change the hard-coded directory to the one where
+	 * your test.txt file is located
+	 */
 	public static void main(String[] args) throws Exception
 	{
 		File file = new File("C:\\Users\\josua\\Documents\\Truman\\Spring 2020\\CS470 - Computer Networks"
