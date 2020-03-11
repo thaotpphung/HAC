@@ -2,3 +2,5 @@
 <Host 1 IP Address> <ID #>
 <Host 2 IP Address> <ID #>
 ...
+
+NOTE: Be sure to include your IP address in the list of host IP address, too.
