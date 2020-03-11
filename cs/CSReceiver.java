@@ -75,17 +75,4 @@ public class CSReceiver implements Runnable
 			e.printStackTrace();
 		}
 	}
-	
-	public String trim(String input)
-	{
-		String output = "";
-		int index = 0;
-		
-		while (input.charAt(index) != ' ')
-		{
-			output.concat(input.substring(index, index + 1));
-		}
-		
-		return output;
-	}
 }
