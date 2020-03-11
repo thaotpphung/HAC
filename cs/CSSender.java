@@ -92,7 +92,7 @@ public class CSSender implements Runnable
 					System.out.println("Info sent to server");
 					System.out.println();
 					
-					Thread.sleep(timer.nextInt());
+					Thread.sleep(timer.nextInt(30000));
 					
 					serverDown = server.getTimeStamp() < System.currentTimeMillis() - 30000 ?
 							true : false;
