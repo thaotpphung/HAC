@@ -43,7 +43,8 @@ public class CSSender implements Runnable
 					for (int index1 = 0; index1 < hosts.getHostListSize(); index1++)
 					{
 						// host not active
-						if (hosts.getHostInfo(index1).getTimeStamp() <=
+						if (!hosts.getHostInfo(index1).getIPAddress().equals(serverIP) && 
+								hosts.getHostInfo(index1).getTimeStamp() <=
 								System.currentTimeMillis() - 30000)
 						{
 							hosts.getHostInfo(index1).updateStatus(false);
@@ -55,18 +56,22 @@ public class CSSender implements Runnable
 					// send the list of hosts info to other hosts
 					for (int index1 = 0; index1 < hosts.getHostListSize(); index1++)
 					{
-						String current = hosts.getHostInfo(index1).getIPAddress();
-						InetAddress destIP = InetAddress.getByName(current);
-						
-						for (int index2 = 0; index2 < hosts.getHostListSize(); index2++)
+						if (!hosts.getHostInfo(index1).getIPAddress().equals(serverIP))
 						{
-							String IP = hosts.getHostInfo(index2).getIPAddress();
+							String current = hosts.getHostInfo(index1).getIPAddress();
+							InetAddress destIP = InetAddress.getByName(current);
 							
-							byte[] IPData = IP.getBytes();
-							
-							DatagramPacket IPPacket = new DatagramPacket(IPData, IPData.length,
-									destIP, 9876);
-							socket.send(IPPacket);
+							for (int index2 = 0; index2 < hosts.getHostListSize(); index2++)
+							{
+								
+								String IP = hosts.getHostInfo(index2).getIPAddress();
+								
+								byte[] IPData = IP.getBytes();
+								
+								DatagramPacket IPPacket = new DatagramPacket(IPData, IPData.length,
+										destIP, 9876);
+								socket.send(IPPacket);
+							}
 						}
 					}
 					

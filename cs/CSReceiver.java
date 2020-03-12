@@ -20,7 +20,7 @@ public class CSReceiver implements Runnable
 	{
 		try
 		{
-			byte[] incomingData = new byte[1024];
+			byte[] incomingData;
 			int receiptCount = 0;
 			int targetIndex;
 			
@@ -29,6 +29,7 @@ public class CSReceiver implements Runnable
 			while (true)
 			{
 				// receive host info
+				incomingData = new byte[1024];
 				DatagramPacket incomingPacket = new DatagramPacket(incomingData, incomingData.length);
 				socket.receive(incomingPacket);
 				
