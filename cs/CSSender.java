@@ -97,13 +97,14 @@ public class CSSender implements Runnable
 					System.out.println("Info sent to server");
 					System.out.println();
 					
-					Thread.sleep(timer.nextInt(30000));
+					Thread.sleep(timer.nextInt(29001) + 1000);
 					
 					serverDown = server.getTimeStamp() < System.currentTimeMillis() - 30000 ?
 							true : false;
 				}
 				
 				// server is down
+				hosts.getHostInfo(hosts.searchHostbyIP(serverIP)).updateStatus(false);
 				hosts.getHostInfo(hosts.searchHostbyIP(serverIP)).updateServerStatus(false);
 			}
 		}
