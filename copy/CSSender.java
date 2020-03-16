@@ -39,9 +39,16 @@ public class CSSender implements Runnable
 				hosts.getHostInfo(targetIndex).updateTimeStamp(System.currentTimeMillis()); // update host's time stamp
 				hosts.getHostInfo(targetIndex).updateStatus(true); // update active status
 				
+				System.out.println("check before probing");
+				for (int i = 0; i < hosts.getHostListSize(); i++)
+				{
+					System.out.println("ip: " + hosts.getHostInfo(i).getIPAddress() + ", active: "  
+							+ hosts.getHostInfo(i).getStatus() + ", isServer: " + hosts.getHostInfo(i).getServerStatus());
+				}
+				
 				// to start, probe the list of IPs for server
 				String serverIP = hosts.probeServerIP();
-//				System.out.println("probe: " + serverIP);
+				System.out.println("done probing: server found:" + serverIP);
 				// update the server status
 				hosts.getHostInfo(hosts.searchHostbyIP(serverIP)).updateServerStatus(true);
 //				System.out.println("set " +serverIP + " to be server");
@@ -80,7 +87,7 @@ public class CSSender implements Runnable
 									String IP = hosts.getHostInfo(index2).getIPAddress();
 									String isServer = String.valueOf(hosts.getHostInfo(index2).getServerStatus());
 									String message = IP + " " + isServer;
-									System.out.println("sender is server: " + message);
+//									System.out.println("sender is server: " + message);
 									byte[] messageToByte = message.getBytes();
 									
 									DatagramPacket IPPacket = new DatagramPacket(messageToByte, messageToByte.length,
@@ -111,7 +118,7 @@ public class CSSender implements Runnable
 					String IP = myIP.toString().substring(1);
 					String isServer = "false"; // because the host is a client
 					String message = IP + " " + isServer;
-					System.out.println("sender is client: " + message);
+//					System.out.println("sender is client: " + message);
 					byte[] messageToByte = message.getBytes();
 					
 					DatagramPacket IPPacket = new DatagramPacket(messageToByte, messageToByte.length,
