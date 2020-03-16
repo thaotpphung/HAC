@@ -43,11 +43,6 @@ public class Host
 	
 	public HostInfo getHostInfo(int index)
 	{
-//		System.out.println("gethostinfo: print host list:");
-//		for (int i = 0; i< hostList.size(); i++)
-//		{
-//			System.out.println( i + ":  " + hostList.get(i).getIPAddress() +  " " +hostList.get(i).getStatus());
-//		}
 		return hostList.get(index);
 	}
 	
@@ -63,30 +58,24 @@ public class Host
 		{
 			if (hostList.get(index).getStatus() && hostList.get(index).getServerStatus())  
 			{
-				System.out.println("probeServer: found an existing active server");
 				return hostList.get(index).getIPAddress();
 			}
 		}
-		
-		System.out.println("probeServer: could't find existing active server, set the first active in the list to be server");
-		// if no one is the server, return the smallest active host
+	
 		return getIPAddressByID(getMinID());
 	}
 	
 	public int getMinID()
 	{	
 		int result = hostList.size();
-//		System.out.println("get min id:");
 		for (int index = 0; index < hostList.size(); index++)
 		{
-//			System.out.println(hostList.get(index).getIPAddress() + " active:" + hostList.get(index).getStatus());
 			if (hostList.get(index).getStatus())
 			{
 				return hostList.get(index).getID();
 			}
 		}
-		
-//		System.out.println("getminid fail, retun hostlist size");
+
 		return result;
 	}
 	
@@ -103,7 +92,6 @@ public class Host
 				found = true;
 			}
 		}
-//		System.out.println("getipbyid: IP found: " + result);
 		return result;
 	}
 	

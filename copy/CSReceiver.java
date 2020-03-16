@@ -35,26 +35,20 @@ public class CSReceiver implements Runnable
 				
 				String[] infoList = messageReceived.split(" ");
 				
-				System.out.println("receiver: IP: " + infoList[0] + " isServer: \"" + infoList[1] + "\"");
 				// array of info of the host received, at index 0 is the ip, at index 1 is the server status of that host
 				
 				targetIndex = hosts.searchHostbyIP(infoList[0]);
 				hosts.getHostInfo(targetIndex).updateTimeStamp(System.currentTimeMillis()); // update host's time stamp
 				hosts.getHostInfo(targetIndex).updateStatus(true); // update active status
 				
-				// get the sender's IP address
-//				String senderIP = incomingPacket.getAddress().toString().substring(1);
-				
 				// update the server status of the receiving packages
 				if(infoList[1].startsWith("true"))
 				{
 					hosts.getHostInfo(hosts.searchHostbyIP(infoList[0])).updateServerStatus(true);
-					System.out.println("receiver: update " + infoList[0] + " to be server");
 				}
 				else
 				{
 					hosts.getHostInfo(hosts.searchHostbyIP(infoList[0])).updateServerStatus(false);
-					System.out.println("receiver: update " + infoList[0] + " to be client");
 				}
 			}
 		}
