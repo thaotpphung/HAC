@@ -21,10 +21,7 @@ public class CSReceiver implements Runnable
 		try
 		{
 			byte[] incomingData;
-			int receiptCount = 0;
 			int targetIndex;
-			
-			long previousTime = System.currentTimeMillis();
 			
 			while (true)
 			{
@@ -34,36 +31,26 @@ public class CSReceiver implements Runnable
 				socket.receive(incomingPacket);
 				
 				// update the host info
-				String hostIP = new String(incomingPacket.getData());
-				targetIndex = hosts.searchHostbyIP(hostIP.trim());
+				String messageReceived = new String(incomingPacket.getData());
+				
+				String[] infoList = messageReceived.split(" ");
+				// array of info of the host received, at index 0 is the ip, at index 1 is the server status of that host
+				
+				targetIndex = hosts.searchHostbyIP(infoList[0].trim());
 				hosts.getHostInfo(targetIndex).updateTimeStamp(System.currentTimeMillis()); // update host's time stamp
 				hosts.getHostInfo(targetIndex).updateStatus(true); // update active status
 				
 				// get the sender's IP address
-				String packetIP = incomingPacket.getAddress().toString().substring(1);
+				String senderIP = incomingPacket.getAddress().toString().substring(1);
 				
 				// it is the first receipt from the sender
-				if (receiptCount == 0)
+				if (infoList[1].equals("true"))
 				{
-					receiptCount++;
-					previousTime = hosts.getHostInfo(targetIndex).getTimeStamp();
-				}
-				// the receiver got host info continuously from the same sender
-				else if (previousTime > System.currentTimeMillis() - 1000)
-				{
-					receiptCount++;
-					
-					if (receiptCount == hosts.getHostListSize())
-					{
-						// the receiver concludes that the sender is the server
-						hosts.getHostInfo(hosts.searchHostbyIP(packetIP)).updateServerStatus(true);
-					}
+					hosts.getHostInfo(hosts.searchHostbyIP(senderIP)).updateServerStatus(true);
 				}
 				else
 				{
-					// the receiver concludes that the sender is not the server
-					receiptCount = 0;
-					hosts.getHostInfo(hosts.searchHostbyIP(packetIP)).updateServerStatus(false);
+					hosts.getHostInfo(hosts.searchHostbyIP(senderIP)).updateServerStatus(false);
 				}
 			}
 		}

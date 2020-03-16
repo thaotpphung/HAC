@@ -36,6 +36,7 @@ public class CSSender implements Runnable
 			{
 				// to start, probe the list of IPs for server
 				String serverIP = hosts.probeServerIP();
+				// update the server status
 				hosts.getHostInfo(hosts.searchHostbyIP(serverIP)).updateServerStatus(true);
 				
 				// the host is the server
@@ -55,7 +56,7 @@ public class CSSender implements Runnable
 						System.out.println(hosts.getHostInfoSummary(index1));
 					}
 					
-					// send the list of hosts info to other hosts
+					// send the list of active hosts info to other hosts
 					for (int index1 = 0; index1 < hosts.getHostListSize(); index1++)
 					{
 						// send ip list to all clients
@@ -64,15 +65,17 @@ public class CSSender implements Runnable
 							String current = hosts.getHostInfo(index1).getIPAddress();
 							InetAddress destIP = InetAddress.getByName(current);
 							
-							// send IP list by sending IP address of all active list separately
+							// send IP list by sending IP address of all active IP separately
 							for (int index2 = 0; index2 < hosts.getHostListSize(); index2++)
 							{
 								if(hosts.getHostInfo(index2).getStatus())
 								{
 									String IP = hosts.getHostInfo(index2).getIPAddress();
-									byte[] IPData = IP.getBytes();
+									String isServer = String.valueOf(hosts.getHostInfo(index2).getStatus());
+									String message = IP + " " + isServer;
+									byte[] messageToByte = message.getBytes();
 									
-									DatagramPacket IPPacket = new DatagramPacket(IPData, IPData.length,
+									DatagramPacket IPPacket = new DatagramPacket(messageToByte, messageToByte.length,
 											destIP, 9876);
 									socket.send(IPPacket);
 								}		
@@ -96,11 +99,14 @@ public class CSSender implements Runnable
 				{
 					InetAddress destIP = InetAddress.getByName(serverIP);
 					
-					String sentence = myIP.toString().substring(1);
-					byte[] data = sentence.getBytes();
+					String IP = myIP.toString().substring(1);
+					String isServer = "false"; // because the host is a client
+					String message = IP + " "+ isServer;
+					byte[] messageToByte = message.getBytes();
 					
-					DatagramPacket sendPacket = new DatagramPacket(data, data.length, destIP, 9876);
-					socket.send(sendPacket);
+					DatagramPacket IPPacket = new DatagramPacket(messageToByte, messageToByte.length,
+							destIP, 9876);
+					socket.send(IPPacket);
 					
 					System.out.print("Info sent to server at: ");
 					DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy/MM/dd HH:mm:ss");
