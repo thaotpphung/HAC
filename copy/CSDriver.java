@@ -31,8 +31,8 @@ public class CSDriver
 			
 			System.out.println("Completed reading; will start C-S protocol shortly.");
 			
-			Thread sender = new Thread(new CSSender(hosts, InetAddress.getByName(senderIP)));
-			Thread receiver = new Thread(new CSReceiver(hosts));
+			Thread sender = new Thread(new SendThread(hosts, InetAddress.getByName(senderIP)));
+			Thread receiver = new Thread(new ReceiveThread(hosts));
 			
 			sender.start();
 			receiver.start();

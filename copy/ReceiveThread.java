@@ -1,0 +1,58 @@
+package cs.copy;
+
+import java.net.DatagramSocket;
+import java.net.DatagramPacket;
+import java.net.SocketException;
+import java.io.IOException;
+
+public class ReceiveThread implements Runnable {
+	private HostList hosts;
+	private DatagramSocket socket;
+
+	public ReceiveThread(HostList hosts) {
+		this.hosts = hosts;
+		socket = hosts.getSocket();
+	}
+
+	public void run() {
+		try {
+			byte[] incomingData;
+			int targetIndex;
+
+			while (true) {
+				// receive host info
+				incomingData = new byte[1024];
+				DatagramPacket incomingPacket = new DatagramPacket(incomingData, incomingData.length);
+				socket.receive(incomingPacket);
+
+				// update the host info
+				String messageReceived = new String(incomingPacket.getData());
+
+				String[] infoList = messageReceived.split(" ");
+
+				// array of info of the host received, at index 0 is the ip, at index 1 is the
+				// server status of that host
+
+				try {
+					targetIndex = hosts.searchHostbyIP(infoList[0]);
+					hosts.getHost(targetIndex).updateTimeStamp(System.currentTimeMillis()); // update host's time stamp
+					hosts.getHost(targetIndex).updateActiveStatus(true); // update active status
+					// update the server status of the receiving packages
+					if (infoList[1].startsWith("true")) {
+						hosts.getHost(hosts.searchHostbyIP(infoList[0])).updateServerStatus(true);
+					
+					} else {
+						hosts.getHost(hosts.searchHostbyIP(infoList[0])).updateServerStatus(false);
+						
+					}
+				} catch (IndexOutOfBoundsException e) {
+					System.out.println("Data was corrupt, sender will resend in a moment..");
+				}
+			}
+		} catch (SocketException e) {
+			e.printStackTrace();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+	}
+}
