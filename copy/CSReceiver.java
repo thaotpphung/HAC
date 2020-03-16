@@ -35,14 +35,14 @@ public class CSReceiver implements Runnable {
 
 				try {
 					targetIndex = hosts.searchHostbyIP(infoList[0]);
-					hosts.getHostInfo(targetIndex).updateTimeStamp(System.currentTimeMillis()); // update host's time stamp
-					hosts.getHostInfo(targetIndex).updateStatus(true); // update active status
+					hosts.getHost(targetIndex).updateTimeStamp(System.currentTimeMillis()); // update host's time stamp
+					hosts.getHost(targetIndex).updateActiveStatus(true); // update active status
 					// update the server status of the receiving packages
 					if (infoList[1].startsWith("true")) {
-						hosts.getHostInfo(hosts.searchHostbyIP(infoList[0])).updateServerStatus(true);
+						hosts.getHost(hosts.searchHostbyIP(infoList[0])).updateServerStatus(true);
 					
 					} else {
-						hosts.getHostInfo(hosts.searchHostbyIP(infoList[0])).updateServerStatus(false);
+						hosts.getHost(hosts.searchHostbyIP(infoList[0])).updateServerStatus(false);
 						
 					}
 				} catch (IndexOutOfBoundsException e) {

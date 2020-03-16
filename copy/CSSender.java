@@ -36,21 +36,21 @@ public class CSSender implements Runnable
 			{
 				int targetIndex = hosts.searchHostbyIP(myIP.toString().substring(1));
 //				System.out.println("myIp is at the index: " + targetIndex);
-				hosts.getHostInfo(targetIndex).updateTimeStamp(System.currentTimeMillis()); // update host's time stamp
-				hosts.getHostInfo(targetIndex).updateStatus(true); // update active status
+				hosts.getHost(targetIndex).updateTimeStamp(System.currentTimeMillis()); // update host's time stamp
+				hosts.getHost(targetIndex).updateActiveStatus(true); // update active status
 				
 				System.out.println("check before probing");
 				for (int i = 0; i < hosts.getHostListSize(); i++)
 				{
-					System.out.println("ip: " + hosts.getHostInfo(i).getIPAddress() + ", active: "  
-							+ hosts.getHostInfo(i).getStatus() + ", isServer: " + hosts.getHostInfo(i).getServerStatus());
+					System.out.println("ip: " + hosts.getHost(i).getIPAddress() + ", active: "  
+							+ hosts.getHost(i).getActiveStatus() + ", isServer: " + hosts.getHost(i).getServerStatus());
 				}
 				
 				// to start, probe the list of IPs for server
 				String serverIP = hosts.probeServerIP();
 				System.out.println("done probing, server found: " + serverIP + "\n");
 				// update the server status
-				hosts.getHostInfo(hosts.searchHostbyIP(serverIP)).updateServerStatus(true);
+				hosts.getHost(hosts.searchHostbyIP(serverIP)).updateServerStatus(true);
 				
 				
 				// the host is the server if my ip is server ip
@@ -60,33 +60,33 @@ public class CSSender implements Runnable
 					for (int index1 = 0; index1 < hosts.getHostListSize(); index1++)
 					{
 						// host not active
-						if (!hosts.getHostInfo(index1).getIPAddress().equals(serverIP) && 
-								hosts.getHostInfo(index1).getTimeStamp() <=
+						if (!hosts.getHost(index1).getIPAddress().equals(serverIP) && 
+								hosts.getHost(index1).getTimeStamp() <=
 								System.currentTimeMillis() - 30000)
 						{
-							hosts.getHostInfo(index1).updateStatus(false);
+							hosts.getHost(index1).updateActiveStatus(false);
 						
 							
 						}
 						
-						System.out.println(hosts.getHostInfoSummary(index1));
+						System.out.println(hosts.getHostSummary(index1));
 					}
 					
 					// send the list of active hosts info to other hosts
 					for (int index1 = 0; index1 < hosts.getHostListSize(); index1++)
 					{
 						// send ip list to all clients
-						if (!hosts.getHostInfo(index1).getIPAddress().equals(serverIP))
+						if (!hosts.getHost(index1).getIPAddress().equals(serverIP))
 						{
-							String current = hosts.getHostInfo(index1).getIPAddress();
+							String current = hosts.getHost(index1).getIPAddress();
 							InetAddress destIP = InetAddress.getByName(current);
 							// send IP list by sending IP address of all active IP separately
 							for (int index2 = 0; index2 < hosts.getHostListSize(); index2++)
 							{
-								if(hosts.getHostInfo(index2).getStatus())
+								if(hosts.getHost(index2).getActiveStatus())
 								{
-									String IP = hosts.getHostInfo(index2).getIPAddress();
-									String isServer = String.valueOf(hosts.getHostInfo(index2).getServerStatus());
+									String IP = hosts.getHost(index2).getIPAddress();
+									String isServer = String.valueOf(hosts.getHost(index2).getServerStatus());
 									String message = IP + " " + isServer;
 
 									byte[] messageToByte = message.getBytes();
@@ -108,7 +108,7 @@ public class CSSender implements Runnable
 					Thread.sleep(timer.nextInt(30000));
 				}
 				
-				HostInfo server = hosts.getHostInfo(hosts.searchHostbyIP(serverIP));
+				Host server = hosts.getHost(hosts.searchHostbyIP(serverIP));
 				boolean serverDown = false;
 				
 				// the host is the client
@@ -119,7 +119,7 @@ public class CSSender implements Runnable
 					String IP = myIP.toString().substring(1);
 					String isServer = "false"; // because the host is a client
 					String message = IP + " " + isServer;
-//					System.out.println("sender is client: send: " + message);
+
 					byte[] messageToByte = message.getBytes();
 					
 					DatagramPacket IPPacket = new DatagramPacket(messageToByte, messageToByte.length,
@@ -138,9 +138,8 @@ public class CSSender implements Runnable
 				}
 				
 				// server is down
-				hosts.getHostInfo(hosts.searchHostbyIP(serverIP)).updateStatus(false);
-				hosts.getHostInfo(hosts.searchHostbyIP(serverIP)).updateServerStatus(false);
-//				System.out.println("sender: server is down, update " + serverIP + "to be client");
+				hosts.getHost(hosts.searchHostbyIP(serverIP)).updateActiveStatus(false);
+				hosts.getHost(hosts.searchHostbyIP(serverIP)).updateServerStatus(false);
 			}
 		}
 		catch (SocketException e)
