@@ -25,6 +25,7 @@ public class CSReceiver implements Runnable
 			int targetIndex;
 			
 			long previousTime = System.currentTimeMillis();
+			String previousIP = "";
 			
 			while (true)
 			{
@@ -47,9 +48,10 @@ public class CSReceiver implements Runnable
 				{
 					receiptCount++;
 					previousTime = hosts.getHostInfo(targetIndex).getTimeStamp();
+					previousIP = packetIP;
 				}
 				// the receiver got host info continuously from the same sender
-				else if (previousTime > System.currentTimeMillis() - 1000)
+				else if (previousIP.equals(packetIP) && previousTime > System.currentTimeMillis() - 1000)
 				{
 					receiptCount++;
 					
