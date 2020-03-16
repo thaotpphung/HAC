@@ -6,10 +6,10 @@ import java.net.SocketException;
 import java.io.IOException;
 
 public class CSReceiver implements Runnable {
-	private Host hosts;
+	private HostList hosts;
 	private DatagramSocket socket;
 
-	public CSReceiver(Host hosts) {
+	public CSReceiver(HostList hosts) {
 		this.hosts = hosts;
 		socket = hosts.getSocket();
 	}

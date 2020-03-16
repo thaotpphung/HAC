@@ -12,7 +12,7 @@ public class CSDriver
 		try
 		{
 			File file = new File("/Users/annie/truman/network/HACproject/src/cs/test.txt");
-			Host hosts = new Host();
+			HostList hosts = new HostList();
 			
 			Scanner s = new Scanner(file);
 			String senderIP;

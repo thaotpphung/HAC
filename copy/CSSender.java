@@ -11,12 +11,12 @@ import java.util.Random;
 
 public class CSSender implements Runnable
 {
-	private Host hosts;
+	private HostList hosts;
 	private DatagramSocket socket;
 	private Random timer;
 	private InetAddress myIP;
 	
-	public CSSender(Host hosts, InetAddress myIP)
+	public CSSender(HostList hosts, InetAddress myIP)
 	{
 		this.hosts = hosts;
 		this.socket = hosts.getSocket();
