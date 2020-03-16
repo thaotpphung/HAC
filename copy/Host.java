@@ -43,6 +43,11 @@ public class Host
 	
 	public HostInfo getHostInfo(int index)
 	{
+//		System.out.println("gethostinfo: print host list:");
+//		for (int i = 0; i< hostList.size(); i++)
+//		{
+//			System.out.println( i + ":  " + hostList.get(i).getIPAddress() +  " " +hostList.get(i).getStatus());
+//		}
 		return hostList.get(index);
 	}
 	
@@ -69,21 +74,20 @@ public class Host
 	}
 	
 	public int getMinID()
-	{
-		int minValue = hostList.size();
-		
+	{	
+		int result = hostList.size();
+//		System.out.println("get min id:");
 		for (int index = 0; index < hostList.size(); index++)
 		{
+//			System.out.println(hostList.get(index).getIPAddress() + " active:" + hostList.get(index).getStatus());
 			if (hostList.get(index).getStatus())
 			{
-				if (hostList.get(index).getID() < minValue)
-				{
-					minValue = hostList.get(index).getID();
-				}
+				return hostList.get(index).getID();
 			}
 		}
 		
-		return minValue;
+//		System.out.println("getminid fail, retun hostlist size");
+		return result;
 	}
 	
 	public String getIPAddressByID(int id)
@@ -99,7 +103,7 @@ public class Host
 				found = true;
 			}
 		}
-		
+//		System.out.println("getipbyid: IP found: " + result);
 		return result;
 	}
 	

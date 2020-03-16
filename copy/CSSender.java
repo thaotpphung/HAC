@@ -29,14 +29,19 @@ public class CSSender implements Runnable
 		try
 		{
 			System.out.println("Hold on, sender is getting ready . . .");
-			Thread.sleep(35000); // wait to receive some ip from senders
+//			Thread.sleep(35000); // wait to receive some ip from senders
 			System.out.println("Sender is now ready");
 			
 			while (true)
 			{
+				int targetIndex = hosts.searchHostbyIP(myIP.toString().substring(1));
+//				System.out.println("myIp is at the index: " + targetIndex);
+				hosts.getHostInfo(targetIndex).updateTimeStamp(System.currentTimeMillis()); // update host's time stamp
+				hosts.getHostInfo(targetIndex).updateStatus(true); // update active status
+				
 				// to start, probe the list of IPs for server
 				String serverIP = hosts.probeServerIP();
-				System.out.println("probe: " + serverIP );
+				System.out.println("probe: " + serverIP);
 				// update the server status
 				hosts.getHostInfo(hosts.searchHostbyIP(serverIP)).updateServerStatus(true);
 				System.out.println("set " +serverIP + " to be server");
