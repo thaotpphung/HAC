@@ -11,7 +11,7 @@ public class CSDriver
 	{
 		try
 		{
-			File file = new File("/home/uab/eclipse-workspace/HAC/src/cs/test.txt");
+			File file = new File("/Users/annie/truman/network/HACproject/src/cs/test.txt");
 			Host hosts = new Host();
 			
 			Scanner s = new Scanner(file);
