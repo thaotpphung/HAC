@@ -39,14 +39,19 @@ public class CSSender implements Runnable
 				hosts.getHostInfo(targetIndex).updateTimeStamp(System.currentTimeMillis()); // update host's time stamp
 				hosts.getHostInfo(targetIndex).updateStatus(true); // update active status
 				
-				
+				System.out.println("check before probing");
+				for (int i = 0; i < hosts.getHostListSize(); i++)
+				{
+					System.out.println("ip: " + hosts.getHostInfo(i).getIPAddress() + ", active: "  
+							+ hosts.getHostInfo(i).getStatus() + ", isServer: " + hosts.getHostInfo(i).getServerStatus());
+				}
 				
 				// to start, probe the list of IPs for server
 				String serverIP = hosts.probeServerIP();
-				System.out.println("done probing: server found: " + serverIP);
+				System.out.println("done probing, server found: " + serverIP + "\n");
 				// update the server status
 				hosts.getHostInfo(hosts.searchHostbyIP(serverIP)).updateServerStatus(true);
-			
+				
 				
 				// the host is the server if my ip is server ip
 				while (serverIP.equals(myIP.toString().substring(1)))
@@ -60,7 +65,7 @@ public class CSSender implements Runnable
 								System.currentTimeMillis() - 30000)
 						{
 							hosts.getHostInfo(index1).updateStatus(false);
-							
+						
 							
 						}
 						
@@ -114,7 +119,7 @@ public class CSSender implements Runnable
 					String IP = myIP.toString().substring(1);
 					String isServer = "false"; // because the host is a client
 					String message = IP + " " + isServer;
-
+//					System.out.println("sender is client: send: " + message);
 					byte[] messageToByte = message.getBytes();
 					
 					DatagramPacket IPPacket = new DatagramPacket(messageToByte, messageToByte.length,
@@ -135,7 +140,7 @@ public class CSSender implements Runnable
 				// server is down
 				hosts.getHostInfo(hosts.searchHostbyIP(serverIP)).updateStatus(false);
 				hosts.getHostInfo(hosts.searchHostbyIP(serverIP)).updateServerStatus(false);
-
+//				System.out.println("sender: server is down, update " + serverIP + "to be client");
 			}
 		}
 		catch (SocketException e)

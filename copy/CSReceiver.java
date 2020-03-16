@@ -40,7 +40,7 @@ public class CSReceiver implements Runnable {
 					// update the server status of the receiving packages
 					if (infoList[1].startsWith("true")) {
 						hosts.getHostInfo(hosts.searchHostbyIP(infoList[0])).updateServerStatus(true);
-						
+					
 					} else {
 						hosts.getHostInfo(hosts.searchHostbyIP(infoList[0])).updateServerStatus(false);
 						
