@@ -43,7 +43,6 @@ public class CSSender implements Runnable
 				System.out.println("done probing: server found:" + serverIP);
 				// update the server status
 				hosts.getHostInfo(hosts.searchHostbyIP(serverIP)).updateServerStatus(true);
-
 				
 				// the host is the server if my ip is server ip
 				while (serverIP.equals(myIP.toString().substring(1)))
@@ -108,7 +107,6 @@ public class CSSender implements Runnable
 					String IP = myIP.toString().substring(1);
 					String isServer = "false"; // because the host is a client
 					String message = IP + " " + isServer;
-//					System.out.println("sender is client: " + message);
 					byte[] messageToByte = message.getBytes();
 					
 					DatagramPacket IPPacket = new DatagramPacket(messageToByte, messageToByte.length,

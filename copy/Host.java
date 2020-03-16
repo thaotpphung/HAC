@@ -61,7 +61,7 @@ public class Host
 				return hostList.get(index).getIPAddress();
 			}
 		}
-		
+	
 		return getIPAddressByID(getMinID());
 	}
 	
@@ -75,7 +75,7 @@ public class Host
 				return hostList.get(index).getID();
 			}
 		}
-		
+
 		return result;
 	}
 	
