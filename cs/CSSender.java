@@ -5,8 +5,6 @@ import java.net.DatagramPacket;
 import java.net.DatagramSocket;
 import java.net.InetAddress;
 import java.net.SocketException;
-import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
 import java.util.Random;
 
 public class CSSender implements Runnable
@@ -28,10 +26,9 @@ public class CSSender implements Runnable
 	{
 		try
 		{
-			System.out.println("Hold on, sender is getting ready . . .");
+			System.out.println("Hold on, sender is being ready . . .");
 			Thread.sleep(35000);
 			System.out.println("Sender is now ready");
-			System.out.println();
 			
 			while (true)
 			{
@@ -59,7 +56,8 @@ public class CSSender implements Runnable
 					// send the list of hosts info to other hosts
 					for (int index1 = 0; index1 < hosts.getHostListSize(); index1++)
 					{
-						if (!hosts.getHostInfo(index1).getIPAddress().equals(serverIP))
+						if (!hosts.getHostInfo(index1).getIPAddress().equals(serverIP)
+								&& hosts.getHostInfo(index1).getStatus())
 						{
 							String current = hosts.getHostInfo(index1).getIPAddress();
 							InetAddress destIP = InetAddress.getByName(current);
@@ -78,10 +76,7 @@ public class CSSender implements Runnable
 						}
 					}
 					
-					System.out.print("Finished sending list to clients at: ");
-					 DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy/MM/dd HH:mm:ss");  
-					   LocalDateTime now = LocalDateTime.now();  
-					   System.out.println(dtf.format(now));  
+					System.out.println("Finished sending list to clients");
 					System.out.println();
 					Thread.sleep(timer.nextInt(30000));
 				}
@@ -100,13 +95,10 @@ public class CSSender implements Runnable
 					DatagramPacket sendPacket = new DatagramPacket(data, data.length, destIP, 9876);
 					socket.send(sendPacket);
 					
-					System.out.print("Info sent to server at: ");
-					DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy/MM/dd HH:mm:ss");  
-					 LocalDateTime now = LocalDateTime.now();  
-					 System.out.println(dtf.format(now));  
+					System.out.println("Info sent to server");
 					System.out.println();
 					
-					Thread.sleep(timer.nextInt(29001) + 1000);
+					Thread.sleep(timer.nextInt(29000) + 1000);
 					
 					serverDown = server.getTimeStamp() < System.currentTimeMillis() - 30000 ?
 							true : false;
