@@ -40,7 +40,7 @@ public class CSSender implements Runnable
 				
 				// to start, probe the list of IPs for server
 				String serverIP = hosts.probeServerIP();
-				System.out.println("done probing: server found:" + serverIP);
+				System.out.println("Done probing, server found: " + serverIP);
 				// update the server status
 				hosts.getHostInfo(hosts.searchHostbyIP(serverIP)).updateServerStatus(true);
 				
