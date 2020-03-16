@@ -41,11 +41,11 @@ public class CSSender implements Runnable
 				
 				// to start, probe the list of IPs for server
 				String serverIP = hosts.probeServerIP();
-				System.out.println("probe: " + serverIP);
+//				System.out.println("probe: " + serverIP);
 				// update the server status
 				hosts.getHostInfo(hosts.searchHostbyIP(serverIP)).updateServerStatus(true);
-				System.out.println("set " +serverIP + " to be server");
-				System.out.println();
+//				System.out.println("set " +serverIP + " to be server");
+//				System.out.println();
 				
 				// the host is the server if my ip is server ip
 				while (serverIP.equals(myIP.toString().substring(1)))
@@ -132,7 +132,7 @@ public class CSSender implements Runnable
 				// server is down
 				hosts.getHostInfo(hosts.searchHostbyIP(serverIP)).updateStatus(false);
 				hosts.getHostInfo(hosts.searchHostbyIP(serverIP)).updateServerStatus(false);
-				System.out.println("sender: server is down, update " + serverIP + "to be client");
+//				System.out.println("sender: server is down, update " + serverIP + "to be client");
 			}
 		}
 		catch (SocketException e)
