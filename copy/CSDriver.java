@@ -11,28 +11,28 @@ public class CSDriver
 	{
 		try
 		{
-			// read IP and ID list from file
 			File file = new File("/Users/annie/truman/network/HACproject/src/cs/test.txt");
+			Host hosts = new Host();
+			
 			Scanner s = new Scanner(file);
 			String senderIP;
 			String inputIP;
 			int id;
 			
-			HostList hosts = new HostList();
-			
 			senderIP = s.nextLine();
+			
 			while (s.hasNext())
 			{
 				inputIP = s.next();
 				id = s.nextInt();
 				
-				hosts.addHost(new Host(inputIP, System.currentTimeMillis() + 35000, id));
+				hosts.addHost(new HostInfo(inputIP, System.currentTimeMillis() + 35000, id));
 			}
 			
 			System.out.println("Completed reading; will start C-S protocol shortly.");
 			
-			Thread sender = new Thread(new SendThread(hosts, InetAddress.getByName(senderIP)));
-			Thread receiver = new Thread(new ReceiveThread(hosts));
+			Thread sender = new Thread(new CSSender(hosts, InetAddress.getByName(senderIP)));
+			Thread receiver = new Thread(new CSReceiver(hosts));
 			
 			sender.start();
 			receiver.start();
