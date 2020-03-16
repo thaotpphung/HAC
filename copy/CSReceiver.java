@@ -30,7 +30,6 @@ public class CSReceiver implements Runnable {
 
 				String[] infoList = messageReceived.split(" ");
 
-				System.out.println("receiver: IP: " + infoList[0] + " isServer: \"" + infoList[1] + "\"");
 				// array of info of the host received, at index 0 is the ip, at index 1 is the
 				// server status of that host
 
@@ -41,10 +40,10 @@ public class CSReceiver implements Runnable {
 					// update the server status of the receiving packages
 					if (infoList[1].startsWith("true")) {
 						hosts.getHostInfo(hosts.searchHostbyIP(infoList[0])).updateServerStatus(true);
-						System.out.println("receiver: update " + infoList[0] + " to be server");
+						
 					} else {
 						hosts.getHostInfo(hosts.searchHostbyIP(infoList[0])).updateServerStatus(false);
-						System.out.println("receiver: update " + infoList[0] + " to be client");
+						
 					}
 				} catch (IndexOutOfBoundsException e) {
 					System.out.println("Data was corrupt, sender will resend in a moment..");
