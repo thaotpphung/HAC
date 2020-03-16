@@ -28,16 +28,14 @@ public class CSSender implements Runnable
 	{
 		try
 		{
-			System.out.println("Hold on, sender is getting ready . . .");
+			System.out.println("Hold on, sender is being ready . . .");
 			Thread.sleep(35000);
 			System.out.println("Sender is now ready");
-			System.out.println();
 			
 			while (true)
 			{
 				// to start, probe the list of IPs for server
 				String serverIP = hosts.probeServerIP();
-				
 				hosts.getHostInfo(hosts.searchHostbyIP(serverIP)).updateServerStatus(true);
 				
 				// the host is the server
@@ -60,29 +58,32 @@ public class CSSender implements Runnable
 					// send the list of hosts info to other hosts
 					for (int index1 = 0; index1 < hosts.getHostListSize(); index1++)
 					{
+						// send ip list to all clients
 						if (!hosts.getHostInfo(index1).getIPAddress().equals(serverIP))
 						{
 							String current = hosts.getHostInfo(index1).getIPAddress();
 							InetAddress destIP = InetAddress.getByName(current);
 							
+							// send IP list by sending IP address of all active list separately
 							for (int index2 = 0; index2 < hosts.getHostListSize(); index2++)
 							{
-								
-								String IP = hosts.getHostInfo(index2).getIPAddress();
-								
-								byte[] IPData = IP.getBytes();
-								
-								DatagramPacket IPPacket = new DatagramPacket(IPData, IPData.length,
-										destIP, 9876);
-								socket.send(IPPacket);
+								if(hosts.getHostInfo(index2).getStatus())
+								{
+									String IP = hosts.getHostInfo(index2).getIPAddress();
+									byte[] IPData = IP.getBytes();
+									
+									DatagramPacket IPPacket = new DatagramPacket(IPData, IPData.length,
+											destIP, 9876);
+									socket.send(IPPacket);
+								}		
 							}
 						}
 					}
 					
 					System.out.print("Finished sending list to clients at: ");
-					 DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy/MM/dd HH:mm:ss");  
-					   LocalDateTime now = LocalDateTime.now();  
-					   System.out.println(dtf.format(now));  
+					DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy/MM/dd HH:mm:ss");
+					LocalDateTime now = LocalDateTime.now();
+					System.out.println(dtf.format(now));
 					System.out.println();
 					Thread.sleep(timer.nextInt(30000));
 				}
@@ -102,12 +103,11 @@ public class CSSender implements Runnable
 					socket.send(sendPacket);
 					
 					System.out.print("Info sent to server at: ");
-					DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy/MM/dd HH:mm:ss");  
-					 LocalDateTime now = LocalDateTime.now();  
-					 System.out.println(dtf.format(now));  
+					DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy/MM/dd HH:mm:ss");
+					LocalDateTime now = LocalDateTime.now();
+					System.out.println(dtf.format(now));
 					System.out.println();
-					
-					Thread.sleep(timer.nextInt(29001) + 1000);
+					Thread.sleep(timer.nextInt(29000) + 1000);
 					
 					serverDown = server.getTimeStamp() < System.currentTimeMillis() - 30000 ?
 							true : false;
