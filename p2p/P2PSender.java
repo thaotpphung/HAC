@@ -41,8 +41,8 @@ public class P2PSender implements Runnable
 	            	System.out.println(peer.getPeerStatus(index1));
 					
 	            	// send my peer info if the selected peer is active
-					// if (peer.getPeerInfo(index1).getStatus())
-					// {
+					 if (peer.getPeerInfo(index1).getStatus())
+					 {
 						String current = peer.getPeerInfo(index1).getIPAddress();
 						InetAddress destIP = InetAddress.getByName(current);
 						
@@ -50,7 +50,7 @@ public class P2PSender implements Runnable
 						byte[] data = sentence.getBytes();
 						DatagramPacket sendPacket = new DatagramPacket(data, data.length, destIP, 9876);
 						socket.send(sendPacket);
-					// }
+					 }
 				}
 				
 				System.out.println();
