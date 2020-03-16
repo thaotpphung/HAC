@@ -29,7 +29,7 @@ public class CSSender implements Runnable
 		try
 		{
 			System.out.println("Hold on, sender is getting ready . . .");
-//			Thread.sleep(35000); // wait to receive some ip from senders
+			Thread.sleep(35000); // wait to receive some ip from senders
 			System.out.println("Sender is now ready");
 			
 			while (true)
@@ -78,7 +78,7 @@ public class CSSender implements Runnable
 								if(hosts.getHostInfo(index2).getStatus())
 								{
 									String IP = hosts.getHostInfo(index2).getIPAddress();
-									String isServer = String.valueOf(hosts.getHostInfo(index2).getStatus());
+									String isServer = String.valueOf(hosts.getHostInfo(index2).getServerStatus());
 									String message = IP + " " + isServer;
 									System.out.println("sender is server: " + message);
 									byte[] messageToByte = message.getBytes();
