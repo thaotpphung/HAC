@@ -42,16 +42,18 @@ public class CSReceiver implements Runnable
 				hosts.getHostInfo(targetIndex).updateStatus(true); // update active status
 				
 				// get the sender's IP address
-//				String senderIP = incomingPacket.getAddress().toString().substring(1);
-//				
-//				if (infoList[1].equals("true"))
-//				{
-//					hosts.getHostInfo(hosts.searchHostbyIP(senderIP)).updateServerStatus(true);
-//				}
-//				else
-//				{
-//					hosts.getHostInfo(hosts.searchHostbyIP(senderIP)).updateServerStatus(false);
-//				}
+				String senderIP = incomingPacket.getAddress().toString().substring(1);
+				
+				if (infoList[1].equals("true"))
+				{
+					hosts.getHostInfo(hosts.searchHostbyIP(senderIP)).updateServerStatus(true);
+					System.out.println("receiver: update " +senderIP + "to be server");
+				}
+				else
+				{
+					hosts.getHostInfo(hosts.searchHostbyIP(senderIP)).updateServerStatus(false);
+					System.out.println("receiver: update " +senderIP + "to be client");
+				}
 			}
 		}
 		catch (SocketException e)

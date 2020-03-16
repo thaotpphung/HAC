@@ -29,7 +29,7 @@ public class CSSender implements Runnable
 		try
 		{
 			System.out.println("Hold on, sender is getting ready . . .");
-			Thread.sleep(35000);
+			Thread.sleep(35000); // wait to receive some ip from senders
 			System.out.println("Sender is now ready");
 			
 			while (true)
@@ -40,8 +40,9 @@ public class CSSender implements Runnable
 				// update the server status
 				hosts.getHostInfo(hosts.searchHostbyIP(serverIP)).updateServerStatus(true);
 				System.out.println("set " +serverIP + " to be server");
+				System.out.println();
 				
-				// the host is the server
+				// the host is the server if my ip is server ip
 				while (serverIP.equals(myIP.toString().substring(1)))
 				{
 					// update server and client info
@@ -66,7 +67,6 @@ public class CSSender implements Runnable
 						{
 							String current = hosts.getHostInfo(index1).getIPAddress();
 							InetAddress destIP = InetAddress.getByName(current);
-							
 							// send IP list by sending IP address of all active IP separately
 							for (int index2 = 0; index2 < hosts.getHostListSize(); index2++)
 							{
@@ -127,6 +127,7 @@ public class CSSender implements Runnable
 				// server is down
 				hosts.getHostInfo(hosts.searchHostbyIP(serverIP)).updateStatus(false);
 				hosts.getHostInfo(hosts.searchHostbyIP(serverIP)).updateServerStatus(false);
+				System.out.println("sender: server is down, update " + serverIP + "to be client");
 			}
 		}
 		catch (SocketException e)
