@@ -33,7 +33,7 @@ public class P2PReceiver implements Runnable
             	//get peer's IP address
             	InetAddress otherIP = incomingPacket.getAddress();
 			                
-            	//update the map with the correct time stamp and status
+            	//update the map with the correct timestamp and status
             	targetIndex = peer.searchPeerWithIP(otherIP.toString().substring(1));
             	peer.updatePeerTimestamp(targetIndex, System.currentTimeMillis());
             	peer.updatePeerStatus(targetIndex, true);
