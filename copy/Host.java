@@ -58,10 +58,12 @@ public class Host
 		{
 			if (hostList.get(index).getStatus() && hostList.get(index).getServerStatus())  
 			{
+				System.out.println("probeServer: find an existing active server");
 				return hostList.get(index).getIPAddress();
 			}
 		}
 		
+		System.out.println("probeServer: can't find existing active server, set the smallest active id to be server");
 		// if no one is the server, return the smallest active host
 		return getIPAddressByID(getMinID());
 	}
