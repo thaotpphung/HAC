@@ -35,20 +35,12 @@ public class CSSender implements Runnable
 			while (true)
 			{
 				int targetIndex = hosts.searchHostbyIP(myIP.toString().substring(1));
-//				System.out.println("myIp is at the index: " + targetIndex);
 				hosts.getHost(targetIndex).updateTimeStamp(System.currentTimeMillis()); // update host's time stamp
 				hosts.getHost(targetIndex).updateActiveStatus(true); // update active status
 				
-				System.out.println("check before probing");
-				for (int i = 0; i < hosts.getHostListSize(); i++)
-				{
-					System.out.println("ip: " + hosts.getHost(i).getIPAddress() + ", active: "  
-							+ hosts.getHost(i).getActiveStatus() + ", isServer: " + hosts.getHost(i).getServerStatus());
-				}
-				
 				// to start, probe the list of IPs for server
 				String serverIP = hosts.probeServerIP();
-				System.out.println("done probing, server found: " + serverIP + "\n");
+				System.out.println("Done probing, server found: " + serverIP + "\n");
 				// update the server status
 				hosts.getHost(hosts.searchHostbyIP(serverIP)).updateServerStatus(true);
 				
