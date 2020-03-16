@@ -28,7 +28,7 @@ public class CSSender implements Runnable
 	{
 		try
 		{
-			System.out.println("Hold on, sender is being ready . . .");
+			System.out.println("Hold on, sender is getting ready . . .");
 			Thread.sleep(35000);
 			System.out.println("Sender is now ready");
 			
@@ -36,8 +36,10 @@ public class CSSender implements Runnable
 			{
 				// to start, probe the list of IPs for server
 				String serverIP = hosts.probeServerIP();
+				System.out.println("probe: " + serverIP );
 				// update the server status
 				hosts.getHostInfo(hosts.searchHostbyIP(serverIP)).updateServerStatus(true);
+				System.out.println("set " +serverIP + " to be server");
 				
 				// the host is the server
 				while (serverIP.equals(myIP.toString().substring(1)))
@@ -73,6 +75,7 @@ public class CSSender implements Runnable
 									String IP = hosts.getHostInfo(index2).getIPAddress();
 									String isServer = String.valueOf(hosts.getHostInfo(index2).getStatus());
 									String message = IP + " " + isServer;
+									System.out.println("sender is server: " + message);
 									byte[] messageToByte = message.getBytes();
 									
 									DatagramPacket IPPacket = new DatagramPacket(messageToByte, messageToByte.length,
@@ -88,6 +91,7 @@ public class CSSender implements Runnable
 					LocalDateTime now = LocalDateTime.now();
 					System.out.println(dtf.format(now));
 					System.out.println();
+					
 					Thread.sleep(timer.nextInt(30000));
 				}
 				
@@ -101,7 +105,8 @@ public class CSSender implements Runnable
 					
 					String IP = myIP.toString().substring(1);
 					String isServer = "false"; // because the host is a client
-					String message = IP + " "+ isServer;
+					String message = IP + " " + isServer;
+					System.out.println("sender is client: " + message);
 					byte[] messageToByte = message.getBytes();
 					
 					DatagramPacket IPPacket = new DatagramPacket(messageToByte, messageToByte.length,
@@ -113,7 +118,7 @@ public class CSSender implements Runnable
 					LocalDateTime now = LocalDateTime.now();
 					System.out.println(dtf.format(now));
 					System.out.println();
-					Thread.sleep(timer.nextInt(29000) + 1000);
+					Thread.sleep(timer.nextInt(30000));
 					
 					serverDown = server.getTimeStamp() < System.currentTimeMillis() - 30000 ?
 							true : false;

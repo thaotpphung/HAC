@@ -34,6 +34,7 @@ public class CSReceiver implements Runnable
 				String messageReceived = new String(incomingPacket.getData());
 				
 				String[] infoList = messageReceived.split(" ");
+				System.out.println(" receiver: IP: " + infoList[0] + " isServer: " + infoList[1]);
 				// array of info of the host received, at index 0 is the ip, at index 1 is the server status of that host
 				
 				targetIndex = hosts.searchHostbyIP(infoList[0].trim());
@@ -41,17 +42,16 @@ public class CSReceiver implements Runnable
 				hosts.getHostInfo(targetIndex).updateStatus(true); // update active status
 				
 				// get the sender's IP address
-				String senderIP = incomingPacket.getAddress().toString().substring(1);
-				
-				// it is the first receipt from the sender
-				if (infoList[1].equals("true"))
-				{
-					hosts.getHostInfo(hosts.searchHostbyIP(senderIP)).updateServerStatus(true);
-				}
-				else
-				{
-					hosts.getHostInfo(hosts.searchHostbyIP(senderIP)).updateServerStatus(false);
-				}
+//				String senderIP = incomingPacket.getAddress().toString().substring(1);
+//				
+//				if (infoList[1].equals("true"))
+//				{
+//					hosts.getHostInfo(hosts.searchHostbyIP(senderIP)).updateServerStatus(true);
+//				}
+//				else
+//				{
+//					hosts.getHostInfo(hosts.searchHostbyIP(senderIP)).updateServerStatus(false);
+//				}
 			}
 		}
 		catch (SocketException e)
