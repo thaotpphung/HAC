@@ -1,145 +1,109 @@
 package cs.copy;
 
-import java.net.*;
-import java.util.ArrayList;
+/**
+* This class represents a Host, including its relevant information and operations
+* @version 3/16/2020
+*/
 
 public class Host
 {
-	private ArrayList<HostInfo> hostList;
-	private DatagramSocket socket;
+	private String IP;
+	private long timeStamp;
+	private boolean isActive;
+	private int idNumber;
+	private boolean isServer;
+	private int flag;
+	private double version;
+	private String reserved;
 	
-	public Host()
+	/**
+	 * constructor for HostInfo
+	 * @param IP IP address of the host
+	 * @param timeStamp the time when the host information was received or when it first become active
+	 * @param id a number unique to each host
+	 */
+	public Host(String IP, long timeStamp, int id)
 	{
-		try
-		{
-			socket = new DatagramSocket(9876);
-		}
-		catch (SocketException e)
-		{
-			e.printStackTrace();
-		}
-		hostList = new ArrayList<HostInfo>();
-	}
-	
-	public void addHost(HostInfo newInfo)
-	{
-		hostList.add(newInfo);
-	}
-	
-	public int searchHostbyIP(String IP)
-	{
-		int notFound = -1;
+		this.IP = IP;
+		this.timeStamp = timeStamp;
+		this.idNumber = id;
+		isActive = false;
+		isServer = false;
 		
-		for (int index = 0; index < hostList.size(); index++)
-		{
-			if (hostList.get(index).getIPAddress().equals(IP))
-			{
-				return index;
-			}
-		}
-		
-		return notFound;
-	}
-	
-	public HostInfo getHostInfo(int index)
-	{
-		return hostList.get(index);
+		this.flag = 1; 	// 1 is server-client mode
+		this.version = 1.0; // the first version
+		this.reserved = ""; // for future development
 	}
 	
 	/**
-	 * get the IP address of the server 
-	 * go through the list of 
-	 * else,  
-	 * @return
+	 * get the IP address of the host
+	 * @return the IP address of the host
 	 */
-	public String probeServerIP()
+	public String getIPAddress()
 	{
-		for (int index = 0; index < hostList.size(); index++)
-		{
-			if (hostList.get(index).getStatus() && hostList.get(index).getServerStatus())  
-			{
-				return hostList.get(index).getIPAddress();
-			}
-		}
-	
-		return getIPAddressByID(getMinID());
+		return IP;
 	}
 	
-	public int getMinID()
-	{	
-		int result = hostList.size();
-		for (int index = 0; index < hostList.size(); index++)
-		{
-			if (hostList.get(index).getStatus())
-			{
-				return hostList.get(index).getID();
-			}
-		}
-
-		return result;
+	/**
+	 * get the time stamp of the host
+	 * @return the time stamp of the host
+	 */
+	public long getTimeStamp()
+	{
+		return timeStamp;
 	}
 	
-	public String getIPAddressByID(int id)
+	/**
+	 * update the time stamp of the host
+	 * @param timeStamp the new time stamp for the host
+	 */
+	public void updateTimeStamp(long timeStamp)
 	{
-		String result = "";
-		boolean found = false;
-		
-		for (int index = 0; !found && index < hostList.size(); index++)
-		{
-			if (hostList.get(index).getID() == id)
-			{
-				result = hostList.get(index).getIPAddress();
-				found = true;
-			}
-		}
-		return result;
+		this.timeStamp = timeStamp;
 	}
 	
-	public DatagramSocket getSocket()
+	/**
+	 * get the status of the host, active or inactive
+	 * @return true if host is active, false otherwise
+	 */
+	public boolean getActiveStatus()
 	{
-		return socket;
+		return isActive;
 	}
 	
-	public int getHostListSize()
+	/**
+	 * update the status of the host
+	 * @param status the new status of the host
+	 */
+	public void updateActiveStatus(boolean status)
 	{
-		return hostList.size();
+		isActive = status;
 	}
 	
-	public String getHostInfoSummary(int index)
+	/**
+	 * get the id of the host
+	 * @return the id of the host
+	 */
+	public int getID()
 	{
-		return new String(hostList.get(index).getIPAddress() + " " + getHostServerStatus(index) + " "
-				+ getHostStatus(index));
+		return idNumber;
 	}
 	
-	public String getHostServerStatus(int index)
+	/**
+	 * get the server status of the host
+	 * @return true if the host is the server, false otherwise
+	 */
+	public boolean getServerStatus()
 	{
-		String result;
-		
-		if (hostList.get(index).getServerStatus())
-		{
-			result = "Server";
-		}
-		else
-		{
-			result = "Client";
-		}
-		
-		return result;
+		return isServer;
 	}
 	
-	public String getHostStatus(int index)
+	/**
+	 * update the server status of the host
+	 * @param status the new server status of the host
+	 */
+	public void updateServerStatus(boolean status)
 	{
-		String result;
-		
-		if (hostList.get(index).getStatus())
-		{
-			result = "Active";
-		}
-		else
-		{
-			result = "Inactive";
-		}
-		
-		return result;
+		isServer = status;
 	}
 }
