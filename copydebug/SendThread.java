@@ -85,9 +85,9 @@ public class SendThread implements Runnable
 							// send list of packets containing IPs and their server status by sending each packet separately 
 							for (int index2 = 0; index2 < hostList.getHostListSize(); index2++)
 							{
-								// only active hostList' packet to a client
-								if(hostList.getHost(index2).getActiveStatus())
-								{
+//								// only active hostList' packet to a client
+//								if(hostList.getHost(index2).getActiveStatus())
+//								{
 									String IP = hostList.getHost(index2).getIPAddress();
 									String isServer = String.valueOf(hostList.getHost(index2).getServerStatus());
 									String isActive = String.valueOf(hostList.getHost(index2).getActiveStatus());
@@ -97,7 +97,7 @@ public class SendThread implements Runnable
 									DatagramPacket packet = new DatagramPacket(messageToByte, messageToByte.length,
 											destIP, 9876);
 									socket.send(packet);
-								}		
+//								}		
 							}
 						}
 					}
