@@ -130,7 +130,8 @@ public class SendThread implements Runnable
 							destIP, 9876);
 					socket.send(IPPacket);
 					
-					System.out.print("Info sent to server at: ");
+					hostList.displayList();
+					System.out.print("Finished sending my info to server at: ");
 					DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy/MM/dd HH:mm:ss");
 					LocalDateTime now = LocalDateTime.now();
 					System.out.println(dtf.format(now));
