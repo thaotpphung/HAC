@@ -105,7 +105,7 @@ public class SendThread implements Runnable
 					LocalDateTime now = LocalDateTime.now();
 					System.out.println(dtf.format(now));
 					System.out.println();
-					
+					// sleeps a random amount of time from 0-30 seconds before send again
 					Thread.sleep(timer.nextInt(30000));
 				}
 				
@@ -132,8 +132,8 @@ public class SendThread implements Runnable
 					LocalDateTime now = LocalDateTime.now();
 					System.out.println(dtf.format(now));
 					System.out.println();
+					//sleeps a random amount of time from 0-30 seconds before send again
 					Thread.sleep(timer.nextInt(30000));
-					
 					serverDown = server.getTimeStamp() < System.currentTimeMillis() - 30000 ?
 							true : false;
 				}
