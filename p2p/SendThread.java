@@ -42,16 +42,12 @@ public class SendThread implements Runnable
 					// print out the summary of the selective peer info (IP address and status)
 	            	System.out.println(peer.getPeerSummary(index));
 					
-	            	// if the peer is active, send my IP to that peer
-					if (peer.getPeer(index).getStatus())
-					{
-						String currentPeer = peer.getPeer(index).getIPAddress();
-						InetAddress destIP = InetAddress.getByName(currentPeer);
-					
-						byte[] data = myIP.toString().getBytes();
-						DatagramPacket sendPacket = new DatagramPacket(data, data.length, destIP, 9876);
-						socket.send(sendPacket);
-					}
+					String currentPeer = peer.getPeer(index).getIPAddress();
+					InetAddress destIP = InetAddress.getByName(currentPeer);
+				
+					byte[] data = myIP.toString().getBytes();
+					DatagramPacket sendPacket = new DatagramPacket(data, data.length, destIP, 9876);
+					socket.send(sendPacket);
 				}
 				
 				System.out.print("Finished sending my IP to other peers at: ");
