@@ -112,7 +112,7 @@ public class HostList
 		return hostList.size();
 	}
 	
-	public synchronized String getHostSummary(int index)
+	public  String getHostSummary(int index)
 	{
 		return new String(hostList.get(index).getIPAddress() + " " + getHostServerStatus(index) + " "
 				+ getHostStatus(index));
@@ -123,7 +123,7 @@ public class HostList
 	 * @param index
 	 * @return the String "server" if the host is the server, "client" otherwise
 	 */
-	public synchronized String getHostServerStatus(int index)
+	public  String getHostServerStatus(int index)
 	{
 		return hostList.get(index).getServerStatus() ? "Server" : "Client";
 	}
@@ -133,12 +133,12 @@ public class HostList
 	 * @param index
 	 * @return the String "Active" if the host is active, "Inactive" otherwise
 	 */
-	public synchronized String getHostStatus(int index)
+	public  String getHostStatus(int index)
 	{
 		return hostList.get(index).getStatus() ? "Active" : "Inactive";
 	}
 	
-	public synchronized void displayList() {
+	public  void displayList() {
 		for (int index = 0; index < hostList.size(); index++)
 		{
 			System.out.println(getHostSummary(index));

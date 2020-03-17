@@ -32,7 +32,9 @@ public class CSReceiver implements Runnable {
 				
 				// array of info of the host received, at index 0 is the ip, at index 1 is the
 				// server status of that host
-
+				
+				System.out.println("hi from receiver");
+				
 				try {
 					String receivedIP = infoList[0];
 					String isServer = infoList[1];
@@ -53,6 +55,7 @@ public class CSReceiver implements Runnable {
 					} else {
 						hosts.getHost(hosts.getHostbyIP(receivedIP)).updateServerStatus(false);
 						System.out.println("update " + receivedIP + " to be client");
+						System.out.println("isActive: isActive" + " but get " + (isActive.startsWith("true") ? true : false));
 						hosts.getHost(targetIndex).updateStatus((isActive.startsWith("true") ? true : false)); // update active status	
 					}
 					
