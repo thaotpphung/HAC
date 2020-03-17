@@ -12,7 +12,7 @@ public class CSDriver
 		try
 		{
 			File file = new File("/Users/annie/truman/network/HACproject/HAC/src/cs/copydebug/test.txt");
-			Host hosts = new Host();
+			HostList hosts = new HostList();
 			
 			Scanner s = new Scanner(file);
 			String senderIP;
@@ -26,7 +26,7 @@ public class CSDriver
 				inputIP = s.next();
 				id = s.nextInt();
 				
-				hosts.addHost(new HostInfo(inputIP, System.currentTimeMillis() + 35000, id));
+				hosts.addHost(new Host(inputIP, System.currentTimeMillis() + 35000, id));
 			}
 			
 			System.out.println("Completed reading; will start C-S protocol shortly.");

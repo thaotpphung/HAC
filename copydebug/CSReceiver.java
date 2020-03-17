@@ -6,10 +6,10 @@ import java.net.SocketException;
 import java.io.IOException;
 
 public class CSReceiver implements Runnable {
-	private Host hosts;
+	private HostList hosts;
 	private DatagramSocket socket;
 
-	public CSReceiver(Host hosts) {
+	public CSReceiver(HostList hosts) {
 		this.hosts = hosts;
 		socket = hosts.getSocket();
 	}
@@ -34,19 +34,28 @@ public class CSReceiver implements Runnable {
 				// server status of that host
 
 				try {
-					System.out.println("receive: IP: " + infoList[0] + " isServer: \"" + infoList[1] + "\"");
+					String receivedIP = infoList[0];
+					String isServer = infoList[1];
+					String isActive = infoList[2];
 					
-					targetIndex = hosts.searchHostbyIP(infoList[0]);
-					hosts.getHostInfo(targetIndex).updateTimeStamp(System.currentTimeMillis()); // update host's time stamp
-					hosts.getHostInfo(targetIndex).updateStatus(true); // update active status
-					// update the server status of the receiving packages
-					if (infoList[1].startsWith("true")) {
-						hosts.getHostInfo(hosts.searchHostbyIP(infoList[0])).updateServerStatus(true);
-						System.out.println("update " + infoList[0] + " to be server");
+					System.out.println("receive: IP: \"" + receivedIP + "\" isServer: \"" + isServer + "\"" + " isActive: \"" 
+				+ isActive);
+					
+					targetIndex = hosts.getHostbyIP(receivedIP);
+					
+					if (isServer.startsWith("true"))
+					{
+						hosts.getHost(targetIndex).updateTimeStamp(System.currentTimeMillis()); // update host's time stamp
+						hosts.getHost(targetIndex).updateStatus(true); // update active status
+						hosts.getHost(hosts.getHostbyIP(receivedIP)).updateServerStatus(true);
+						System.out.println("update " + receivedIP + " to be server");
+						
 					} else {
-						hosts.getHostInfo(hosts.searchHostbyIP(infoList[0])).updateServerStatus(false);
-						System.out.println("update " + infoList[0] + " to be client");
+						hosts.getHost(hosts.getHostbyIP(receivedIP)).updateServerStatus(false);
+						System.out.println("update " + receivedIP + " to be client");
+						hosts.getHost(targetIndex).updateStatus((isActive.startsWith("true") ? true : false)); // update active status	
 					}
+					
 					System.out.println();
 				} catch (IndexOutOfBoundsException e) {
 					System.out.println("Data was corrupt, wait for sender to resend");

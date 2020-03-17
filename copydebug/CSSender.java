@@ -11,15 +11,15 @@ import java.util.Random;
 
 public class CSSender implements Runnable
 {
-	private Host hosts;
+	private HostList hostList;
 	private DatagramSocket socket;
 	private Random timer;
 	private InetAddress myIP;
 	
-	public CSSender(Host hosts, InetAddress myIP)
+	public CSSender(HostList hostList, InetAddress myIP)
 	{
-		this.hosts = hosts;
-		this.socket = hosts.getSocket();
+		this.hostList = hostList;
+		this.socket = hostList.getSocket();
 		this.myIP = myIP;
 		timer = new Random();
 	}
@@ -34,59 +34,61 @@ public class CSSender implements Runnable
 			
 			while (true)
 			{
-				int targetIndex = hosts.searchHostbyIP(myIP.toString().substring(1));
+				int targetIndex = hostList.getHostbyIP(myIP.toString().substring(1));
 //				System.out.println("myIp is at the index: " + targetIndex);
-				hosts.getHostInfo(targetIndex).updateTimeStamp(System.currentTimeMillis()); // update host's time stamp
-				hosts.getHostInfo(targetIndex).updateStatus(true); // update active status
+				hostList.getHost(targetIndex).updateTimeStamp(System.currentTimeMillis()); // update host's time stamp
+				hostList.getHost(targetIndex).updateStatus(true); // update active status
 				
 				System.out.println("\ncheck before probing: ");
-				for (int i = 0; i < hosts.getHostListSize(); i++)
+				for (int i = 0; i < hostList.getHostListSize(); i++)
 				{
-					System.out.println("ip: " + hosts.getHostInfo(i).getIPAddress() + ", active: "  
-							+ hosts.getHostInfo(i).getStatus() + ", isServer: " + hosts.getHostInfo(i).getServerStatus());
+					System.out.println("ip: " + hostList.getHost(i).getIPAddress() + ", active: "  
+							+ hostList.getHost(i).getStatus() + ", isServer: " + hostList.getHost(i).getServerStatus());
 				}
 				System.out.println("\n");
 				
 				// to start, probe the list of IPs for server
-				String serverIP = hosts.probeServerIP();
+				String serverIP = hostList.probeServerIP();
 				System.out.println("\ndone probing, server found: " + serverIP );
 				// update the server status
-				hosts.getHostInfo(hosts.searchHostbyIP(serverIP)).updateServerStatus(true);
+				hostList.getHost(hostList.getHostbyIP(serverIP)).updateServerStatus(true);
 				System.out.println("set " +serverIP + " to be server \n");
 				
 				// the host is the server if my ip is server ip
 				while (serverIP.equals(myIP.toString().substring(1)))
 				{
 					// update server and client info
-					for (int index1 = 0; index1 < hosts.getHostListSize(); index1++)
+					for (int index1 = 0; index1 < hostList.getHostListSize(); index1++)
 					{
 						// host not active
-						if (!hosts.getHostInfo(index1).getIPAddress().equals(serverIP) && 
-								hosts.getHostInfo(index1).getTimeStamp() <=
+						if (!hostList.getHost(index1).getIPAddress().equals(serverIP) && 
+								hostList.getHost(index1).getTimeStamp() <=
 								System.currentTimeMillis() - 30000)
 						{
-							hosts.getHostInfo(index1).updateStatus(false);
+							hostList.getHost(index1).updateStatus(false);
 						}
 						
-						System.out.println(hosts.getHostInfoSummary(index1));
+						System.out.println(hostList.getHostSummary(index1));
 					}
 					
 					// send the list of active hosts info to other hosts
-					for (int index1 = 0; index1 < hosts.getHostListSize(); index1++)
+					for (int index1 = 0; index1 < hostList.getHostListSize(); index1++)
 					{
 						// send ip list to all clients
-						if (!hosts.getHostInfo(index1).getIPAddress().equals(serverIP))
+						if (!hostList.getHost(index1).getIPAddress().equals(serverIP))
 						{
-							String current = hosts.getHostInfo(index1).getIPAddress();
+							String current = hostList.getHost(index1).getIPAddress();
 							InetAddress destIP = InetAddress.getByName(current);
 							// send IP list by sending IP address of all active IP separately
-							for (int index2 = 0; index2 < hosts.getHostListSize(); index2++)
+							for (int index2 = 0; index2 < hostList.getHostListSize(); index2++)
 							{
-								if(hosts.getHostInfo(index2).getStatus())
+								if(hostList.getHost(index2).getStatus())
 								{
-									String IP = hosts.getHostInfo(index2).getIPAddress();
-									String isServer = String.valueOf(hosts.getHostInfo(index2).getServerStatus());
-									String message = IP + " " + isServer;
+									String IP = hostList.getHost(index2).getIPAddress();
+									String isServer = String.valueOf(hostList.getHost(index2).getServerStatus());
+									String isActive = String.valueOf(hostList.getHost(index2).getStatus());
+									String message = IP + " " + isServer + " " + isActive;
+									
 //									System.out.println("sender is server: send: " + message);
 									byte[] messageToByte = message.getBytes();
 									
@@ -107,7 +109,7 @@ public class CSSender implements Runnable
 					Thread.sleep(timer.nextInt(30000));
 				}
 				
-				HostInfo server = hosts.getHostInfo(hosts.searchHostbyIP(serverIP));
+				Host server = hostList.getHost(hostList.getHostbyIP(serverIP));
 				boolean serverDown = false;
 				
 				// the host is the client
@@ -117,7 +119,8 @@ public class CSSender implements Runnable
 					
 					String IP = myIP.toString().substring(1);
 					String isServer = "false"; // because the host is a client
-					String message = IP + " " + isServer;
+					String isActive = "true"; // this host is active
+					String message = IP + " " + isServer + " " + isActive;
 //					System.out.println("sender is client: send: " + message);
 					byte[] messageToByte = message.getBytes();
 					
@@ -125,7 +128,8 @@ public class CSSender implements Runnable
 							destIP, 9876);
 					socket.send(IPPacket);
 					
-					System.out.print("Info sent to server at: ");
+					hostList.displayList();
+					System.out.print("Finished sending my info to server at: ");
 					DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy/MM/dd HH:mm:ss");
 					LocalDateTime now = LocalDateTime.now();
 					System.out.println(dtf.format(now));
@@ -137,8 +141,8 @@ public class CSSender implements Runnable
 				}
 				
 				// server is down
-				hosts.getHostInfo(hosts.searchHostbyIP(serverIP)).updateStatus(false);
-				hosts.getHostInfo(hosts.searchHostbyIP(serverIP)).updateServerStatus(false);
+				hostList.getHost(hostList.getHostbyIP(serverIP)).updateStatus(false);
+				hostList.getHost(hostList.getHostbyIP(serverIP)).updateServerStatus(false);
 //				System.out.println("sender: server is down, update " + serverIP + "to be client");
 			}
 		}
