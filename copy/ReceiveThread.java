@@ -50,27 +50,8 @@ public class ReceiveThread implements Runnable {
 					if (infoList[1].startsWith("true")) {
 						hosts.getHost(hosts.getHostbyIP(infoList[0])).updateServerStatus(true);
 					} else {
-						hosts.getHost(hosts.getHostbyIP(infoList[0])).updateServerStatus(false);	
-					}
-					
-					
-					// this deals with the case where there are more than 1 server
-					if (hosts.getNumberofServerIPs() > 1)
-					{
-						boolean serverFound = false;
+						hosts.getHost(hosts.getHostbyIP(infoList[0])).updateServerStatus(false);
 						
-						for (int index = 0; index < hosts.getHostListSize() && !serverFound; index++)
-						{
-							if (hosts.getHost(index).getServerStatus())
-							{
-								serverFound = true;
-								
-								for (int index2 = index + 1; index2 < hosts.getHostListSize(); index2++)
-								{
-									hosts.getHost(index2).updateServerStatus(false);
-								}
-							}
-						}
 					}
 				} catch (IndexOutOfBoundsException e) {
 					System.out.println("Data was corrupt, wait for sender to resend..");
