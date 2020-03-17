@@ -54,6 +54,9 @@ public class SendThread implements Runnable
 				hostList.getHost(targetIndex).updateTimeStamp(System.currentTimeMillis()); 
 				hostList.getHost(targetIndex).updateActiveStatus(true); 
 				
+				System.out.println("check b4 probing");
+				hostList.displayList();
+				System.out.println();
 				// to start, get the server IP address
 				String serverIP = hostList.getServerIP();
 				// update the server status of the server
