@@ -11,7 +11,7 @@ public class CSDriver
 	{
 		try
 		{
-			File file = new File("/Users/annie/truman/network/HACproject/src/cs/test.txt");
+			File file = new File("/Users/annie/truman/network/HACproject/HAC/src/cs/copydebug/test.txt");
 			Host hosts = new Host();
 			
 			Scanner s = new Scanner(file);

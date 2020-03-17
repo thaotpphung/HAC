@@ -28,9 +28,9 @@ public class CSSender implements Runnable
 	{
 		try
 		{
-			System.out.println("Hold on, sender is getting ready . . .");
+			System.out.println("Hold on, sender is getting ready . . . \n");
 			Thread.sleep(35000); // wait to receive some ip from senders
-			System.out.println("Sender is now ready");
+			System.out.println("\nSender is now ready");
 			
 			while (true)
 			{
@@ -39,20 +39,20 @@ public class CSSender implements Runnable
 				hosts.getHostInfo(targetIndex).updateTimeStamp(System.currentTimeMillis()); // update host's time stamp
 				hosts.getHostInfo(targetIndex).updateStatus(true); // update active status
 				
-				System.out.println("check before probing");
+				System.out.println("\ncheck before probing: ");
 				for (int i = 0; i < hosts.getHostListSize(); i++)
 				{
 					System.out.println("ip: " + hosts.getHostInfo(i).getIPAddress() + ", active: "  
 							+ hosts.getHostInfo(i).getStatus() + ", isServer: " + hosts.getHostInfo(i).getServerStatus());
 				}
+				System.out.println("\n");
 				
 				// to start, probe the list of IPs for server
 				String serverIP = hosts.probeServerIP();
-				System.out.println("done probing: server found:" + serverIP);
+				System.out.println("\ndone probing, server found: " + serverIP );
 				// update the server status
 				hosts.getHostInfo(hosts.searchHostbyIP(serverIP)).updateServerStatus(true);
-				System.out.println("set " +serverIP + " to be server");
-				System.out.println();
+				System.out.println("set " +serverIP + " to be server \n");
 				
 				// the host is the server if my ip is server ip
 				while (serverIP.equals(myIP.toString().substring(1)))
@@ -66,8 +66,6 @@ public class CSSender implements Runnable
 								System.currentTimeMillis() - 30000)
 						{
 							hosts.getHostInfo(index1).updateStatus(false);
-							System.out.println("IP " + hosts.getHostInfo(index1) +"become inactive" );
-							
 						}
 						
 						System.out.println(hosts.getHostInfoSummary(index1));

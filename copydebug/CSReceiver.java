@@ -29,25 +29,27 @@ public class CSReceiver implements Runnable {
 				String messageReceived = new String(incomingPacket.getData());
 
 				String[] infoList = messageReceived.split(" ");
-
-				System.out.println("receiver: IP: " + infoList[0] + " isServer: \"" + infoList[1] + "\"");
+				
 				// array of info of the host received, at index 0 is the ip, at index 1 is the
 				// server status of that host
 
 				try {
+					System.out.println("receive: IP: " + infoList[0] + " isServer: \"" + infoList[1] + "\"");
+					
 					targetIndex = hosts.searchHostbyIP(infoList[0]);
 					hosts.getHostInfo(targetIndex).updateTimeStamp(System.currentTimeMillis()); // update host's time stamp
 					hosts.getHostInfo(targetIndex).updateStatus(true); // update active status
 					// update the server status of the receiving packages
 					if (infoList[1].startsWith("true")) {
 						hosts.getHostInfo(hosts.searchHostbyIP(infoList[0])).updateServerStatus(true);
-						System.out.println("receiver: update " + infoList[0] + " to be server");
+						System.out.println("update " + infoList[0] + " to be server");
 					} else {
 						hosts.getHostInfo(hosts.searchHostbyIP(infoList[0])).updateServerStatus(false);
-						System.out.println("receiver: update " + infoList[0] + " to be client");
+						System.out.println("update " + infoList[0] + " to be client");
 					}
+					System.out.println();
 				} catch (IndexOutOfBoundsException e) {
-					System.out.println("Data was corrupt, sender will resend in a moment..");
+					System.out.println("Data was corrupt, wait for sender to resend");
 				}
 			}
 		} catch (SocketException e) {
