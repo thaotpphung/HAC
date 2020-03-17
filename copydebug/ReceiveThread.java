@@ -52,14 +52,15 @@ public class ReceiveThread implements Runnable {
 					
 					// update the active status and time stamp of received host
 					targetIndex = hosts.getHostbyIP(infoList[0]);
-					hosts.getHost(targetIndex).updateTimeStamp(System.currentTimeMillis()); // update host's time stamp
-					hosts.getHost(targetIndex).updateActiveStatus(true); // update active status
+					
 					// update the server status of the receiving packages
 					if (infoList[1].startsWith("true")) {
 						hosts.getHost(hosts.getHostbyIP(infoList[0])).updateServerStatus(true);
+						hosts.getHost(targetIndex).updateTimeStamp(System.currentTimeMillis()); // update host's time stamp
+						hosts.getHost(targetIndex).updateActiveStatus(true); // update active status
 					} else {
 						hosts.getHost(hosts.getHostbyIP(infoList[0])).updateServerStatus(false);
-						
+						hosts.getHost(targetIndex).updateActiveStatus((infoList[2].startsWith("true") ? true : false)); // update active status	
 					}
 				} catch (IndexOutOfBoundsException e) {
 					System.out.println("Data was corrupt, wait for sender to resend..");
