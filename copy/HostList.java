@@ -90,6 +90,25 @@ public class HostList
 	}
 	
 	/**
+	 * return the number of current server IPs
+	 * @return the current number of server IPs
+	 */
+	public int getNumberofServerIPs()
+	{
+		int serverCount = 0;
+		
+		for (int index = 0; index < hostList.size(); index++)
+		{
+			if (hostList.get(index).getServerStatus())
+			{
+				serverCount++;
+			}
+		}
+		
+		return serverCount;
+	}
+	
+	/**
 	 * get the first active host in the list 
 	 * @return the IP address of the first active host in the list
 	 */
