@@ -8,7 +8,7 @@ import java.net.*;
 public class P2PDriver {
 	public static void main(String[] args) {
 		try {
-			// read IP and ID list from file
+			// read IP list from file
 			File file = new File("/Users/annie/truman/network/HACproject/HAC/src/p2p/test.txt");
 			Scanner s = new Scanner(file);
 			String myIP;

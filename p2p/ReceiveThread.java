@@ -6,17 +6,28 @@ import java.net.DatagramSocket;
 import java.net.InetAddress;
 import java.net.SocketException;
 
+/**
+ * A Receiver Thread to receive IP address of other peer
+ * @version 3/16/2020
+ */
 public class ReceiveThread implements Runnable
 {
 	private PeerList peer;
 	private DatagramSocket socket;
 	
+	/**
+	 * constructor for Receive Thread
+	 * @param peer
+	 */
 	public ReceiveThread(PeerList peer)
 	{
 		this.peer = peer;
 		this.socket = peer.getSocket();
 	}
 	
+	/**
+	 * run method for this Thread
+	 */
 	public void run()
 	{
 		try
@@ -30,7 +41,7 @@ public class ReceiveThread implements Runnable
             	DatagramPacket incomingPacket = new DatagramPacket(incomingData, incomingData.length);
             	socket.receive(incomingPacket);
             
-            	//get peer's IP address
+            	// get peer's IP address
             	InetAddress otherIP = incomingPacket.getAddress();
 			                
             	// update received peer's time stamp and active status

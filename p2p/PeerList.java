@@ -3,16 +3,21 @@ package p2p;
 import java.net.*;
 import java.util.ArrayList;
 
+/**
+ * A class representing the list of peers, with relevant operations
+ * @version 3/16/2020
+ */
 public class PeerList {
 	private DatagramSocket socket = null;
-	// Map that maps IP addresses to time stamps
 	private ArrayList<Peer> peerList;
 	
+	/**
+	 * constructor for PeerList, create socket and initialize the peer list
+	 */
 	public PeerList() 
 	{
 		try
 		{
-			// create my socket
 			this.socket = new DatagramSocket(9876);
 		}
 		catch (SocketException e) 
@@ -20,31 +25,43 @@ public class PeerList {
             e.printStackTrace();
         }
 		this.peerList = new ArrayList<Peer>();
-		// initialize the list of all peers' IP addresses
-		
 	}
 	
-	public synchronized void addPeer(Peer peer)
+	/**
+	 * add a new peer to the list of peer
+	 * @param peer the new peer
+	 */
+	public void addPeer(Peer peer)
 	{
 		peerList.add(peer);
 	}
 	
-	public Peer getPeer(int index)
+	/**
+	 * get the Peer object by its index
+	 * @param index the index of the desired peer
+	 * @return the desired Peer object 
+	 */
+	public synchronized Peer getPeer(int index)
 	{
 		return peerList.get(index);
 	}
 	
-	public void updatePeerStatus(int index, boolean status)
+	/**
+	 * updae th
+	 * @param index
+	 * @param status
+	 */
+	public synchronized void updatePeerStatus(int index, boolean status)
 	{
 		peerList.get(index).updateStatus(status);
 	}
 	
-	public void updatePeerTimestamp(int index, long time)
+	public synchronized void updatePeerTimestamp(int index, long time)
 	{
 		peerList.get(index).updateTimeStamp(time);
 	}
 	
-	public int searchPeerWithIP(String IP)
+	public synchronized int searchPeerWithIP(String IP)
 	{
 		int result = -1;
 		
@@ -69,7 +86,7 @@ public class PeerList {
 		return socket;
 	}
 	
-	public String getPeerSummary(int index)
+	public synchronized String getPeerSummary(int index)
 	{
 		return peerList.get(index).toString();
 	}
