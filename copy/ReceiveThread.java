@@ -6,8 +6,9 @@ import java.net.SocketException;
 import java.io.IOException;
 
 /**
- * A Receiver Thread to receive IP address and server status 
- * @version 3/16/2020
+ * A Receiver Thread to receive IP address and server status
+ * @author Robert Masek, Sua "Joshua" Lee, Thao Phung 
+ * @version 16 March 2020
  */
 public class ReceiveThread implements Runnable {
 	private HostList hosts;

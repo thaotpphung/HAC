@@ -11,7 +11,8 @@ import java.util.Random;
 
 /**
  * Sender Thread to send information, works differently depending on the mode
- * @version 3/16/2020
+ * @author Robert Masek, Sua "Joshua" Lee, Thao Phung
+ * @version 16 March 2020
  */
 public class SendThread implements Runnable
 {

@@ -5,6 +5,11 @@ import java.net.InetAddress;
 import java.net.UnknownHostException;
 import java.util.Scanner;
 
+/** 
+ * driver class for testing client-server HAC protocol
+ * @author Robert Masek, Sua "Joshua" Lee, Thao Phung
+ * @version 16 March 2020
+ */
 public class CSDriver
 {
 	public static void main(String[] args)
@@ -12,7 +17,8 @@ public class CSDriver
 		try
 		{
 			// read IP and ID list from file
-			File file = new File("/Users/annie/truman/network/HACproject/HAC/src/cs/copy/test.txt");
+			File file = new File("C:\\Users\\josua\\Documents\\Truman\\Spring 2020\\CS470 - Computer Networks\\"
+					+ "Projects\\Project 1\\bin\\cs\\test.txt");
 			Scanner s = new Scanner(file);
 			String senderIP;
 			String inputIP;
