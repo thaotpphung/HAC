@@ -51,7 +51,6 @@ public class ReceiveThread implements Runnable {
 						hosts.getHost(hosts.getHostbyIP(infoList[0])).updateServerStatus(true);
 					} else {
 						hosts.getHost(hosts.getHostbyIP(infoList[0])).updateServerStatus(false);
-						
 					}
 				} catch (IndexOutOfBoundsException e) {
 					System.out.println("Data was corrupt, wait for sender to resend..");

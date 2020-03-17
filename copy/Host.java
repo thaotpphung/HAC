@@ -39,7 +39,7 @@ public class Host
 	 * get the IP address of the host
 	 * @return the IP address of the host
 	 */
-	public synchronized String getIPAddress()
+	public String getIPAddress()
 	{
 		return IP;
 	}
@@ -48,7 +48,7 @@ public class Host
 	 * get the time stamp of the host
 	 * @return the time stamp of the host
 	 */
-	public synchronized long getTimeStamp()
+	public long getTimeStamp()
 	{
 		return timeStamp;
 	}
@@ -57,7 +57,7 @@ public class Host
 	 * update the time stamp of the host
 	 * @param timeStamp the new time stamp for the host
 	 */
-	public synchronized void updateTimeStamp(long timeStamp)
+	public void updateTimeStamp(long timeStamp)
 	{
 		this.timeStamp = timeStamp;
 	}
@@ -66,7 +66,7 @@ public class Host
 	 * get the status of the host, active or inactive
 	 * @return true if host is active, false otherwise
 	 */
-	public synchronized boolean getActiveStatus()
+	public boolean getActiveStatus()
 	{
 		return isActive;
 	}
@@ -75,7 +75,7 @@ public class Host
 	 * update the status of the host
 	 * @param status the new status of the host
 	 */
-	public synchronized void updateActiveStatus(boolean status)
+	public void updateActiveStatus(boolean status)
 	{
 		isActive = status;
 	}
@@ -84,7 +84,7 @@ public class Host
 	 * get the id of the host
 	 * @return the id of the host
 	 */
-	public synchronized int getID()
+	public int getID()
 	{
 		return idNumber;
 	}
@@ -93,7 +93,7 @@ public class Host
 	 * get the server status of the host
 	 * @return true if the host is the server, false otherwise
 	 */
-	public synchronized boolean getServerStatus()
+	public boolean getServerStatus()
 	{
 		return isServer;
 	}
@@ -102,7 +102,7 @@ public class Host
 	 * update the server status of the host
 	 * @param status the new server status of the host
 	 */
-	public synchronized void updateServerStatus(boolean status)
+	public void updateServerStatus(boolean status)
 	{
 		isServer = status;
 	}
