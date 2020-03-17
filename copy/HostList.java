@@ -43,7 +43,7 @@ public class HostList
 	 * @param IP IP of the desired host
 	 * @return the index of the desired host in the list of hosts
 	 */
-	public int searchHostbyIP(String IP)
+	public int getHostbyIP(String IP)
 	{
 		int notFound = -1;
 		
@@ -72,7 +72,7 @@ public class HostList
 	 * get the IP address of the server 
 	 * @return the IP address of the server 
 	 */
-	public String probeServerIP()
+	public String getServerIP()
 	{
 		for (int index = 0; index < hostList.size(); index++)
 		{

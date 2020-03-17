@@ -11,16 +11,16 @@ public class CSDriver
 	{
 		try
 		{
+			// read IP and ID list from file
 			File file = new File("/Users/annie/truman/network/HACproject/src/cs/test.txt");
-			HostList hosts = new HostList();
-			
 			Scanner s = new Scanner(file);
 			String senderIP;
 			String inputIP;
 			int id;
 			
-			senderIP = s.nextLine();
+			HostList hosts = new HostList();
 			
+			senderIP = s.nextLine();	
 			while (s.hasNext())
 			{
 				inputIP = s.next();
