@@ -16,7 +16,7 @@ public class Host
 	private String reserved;
 	
 	/**
-	 * constructor for HostInfo
+	 * constructor for Host
 	 * @param IP IP address of the host
 	 * @param timeStamp the time when the host information was received or when it first become active
 	 * @param id a number unique to each host
