@@ -41,27 +41,27 @@ public class PeerList {
 	 * @param index the index of the desired peer
 	 * @return the desired Peer object 
 	 */
-	public synchronized Peer getPeer(int index)
+	public Peer getPeer(int index)
 	{
 		return peerList.get(index);
 	}
 	
 	/**
-	 * updae th
+	 * update this peer's active status
 	 * @param index
 	 * @param status
 	 */
-	public synchronized void updatePeerStatus(int index, boolean status)
+	public void updatePeerStatus(int index, boolean status)
 	{
 		peerList.get(index).updateStatus(status);
 	}
 	
-	public synchronized void updatePeerTimestamp(int index, long time)
+	public void updatePeerTimestamp(int index, long time)
 	{
 		peerList.get(index).updateTimeStamp(time);
 	}
 	
-	public synchronized int searchPeerWithIP(String IP)
+	public int searchPeerWithIP(String IP)
 	{
 		int result = -1;
 		
@@ -86,7 +86,7 @@ public class PeerList {
 		return socket;
 	}
 	
-	public synchronized String getPeerSummary(int index)
+	public String getPeerSummary(int index)
 	{
 		return peerList.get(index).toString();
 	}

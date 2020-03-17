@@ -25,7 +25,7 @@ public class Peer {
 	 * get the IP address of this peer
 	 * @return the IP address of this peer
 	 */
-	public synchronized String getIPAddress()
+	public String getIPAddress()
 	{
 		return IP;
 	}
@@ -34,7 +34,7 @@ public class Peer {
 	 * update the time stamp for this peer
 	 * @param timeStamp the new time stamp of this peer
 	 */
-	public synchronized void updateTimeStamp(long timeStamp)
+	public void updateTimeStamp(long timeStamp)
 	{
 		this.timeStamp = timeStamp;
 	}
@@ -43,7 +43,7 @@ public class Peer {
 	 * get the time stamp of this peer
 	 * @return the time stamp of this peer
 	 */
-	public synchronized long getTimeStamp()
+	public long getTimeStamp()
 	{
 		return timeStamp;
 	}
@@ -52,7 +52,7 @@ public class Peer {
 	 * get the active status of this peer
 	 * @return true if the peer is active, false otherwise
 	 */
-	public synchronized boolean getStatus()
+	public boolean getStatus()
 	{
 		return isActive;
 	}
@@ -61,7 +61,7 @@ public class Peer {
 	 * update the active status for this peer
 	 * @param status the new status of this peer
 	 */
-	public synchronized void updateStatus(boolean status)
+	public void updateStatus(boolean status)
 	{
 		isActive = status;
 	}
@@ -69,7 +69,7 @@ public class Peer {
 	/**
 	 * @return the string that has the peer IP address and its active status
 	 */
-	public synchronized String toString()
+	public String toString()
 	{
 		return new String("Peer " + IP +  " " + (isActive ? "Active" : "Inactive"));
 	}
