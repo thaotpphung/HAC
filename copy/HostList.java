@@ -154,11 +154,4 @@ public class HostList
 	{
 		return hostList.get(index).getActiveStatus() ? "Active" : "Inactive";
 	}
-	
-	public void displayList() {
-		for (int index = 0; index < hostList.size(); index++)
-		{
-			System.out.println(getHostSummary(index));
-		}
-	}
 }

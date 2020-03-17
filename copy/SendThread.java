@@ -16,20 +16,20 @@ import java.util.Random;
  */
 public class SendThread implements Runnable
 {
-	private HostList hostList;
+	private HostList hosts;
 	private DatagramSocket socket;
 	private Random timer;
 	private InetAddress myIP;
 	
 	/**
 	 * constructor for Sender
-	 * @param hostList the list of hostList
+	 * @param hostList the list of hosts
 	 * @param myIP the IP of this host
 	 */
-	public SendThread(HostList hostList, InetAddress myIP)
+	public SendThread(HostList hosts, InetAddress myIP)
 	{
-		this.hostList = hostList;
-		this.socket = hostList.getSocket();
+		this.hosts = hosts;
+		this.socket = hosts.getSocket();
 		this.myIP = myIP;
 		timer = new Random();
 	}
@@ -50,46 +50,46 @@ public class SendThread implements Runnable
 			while (true)
 			{
 				// before trying to find the server IP, update the active status and time stamp  of this host
-				int targetIndex = hostList.getHostbyIP(myIP.toString().substring(1));
-				hostList.getHost(targetIndex).updateTimeStamp(System.currentTimeMillis()); 
-				hostList.getHost(targetIndex).updateActiveStatus(true); 
+				int targetIndex = hosts.getHostbyIP(myIP.toString().substring(1));
+				hosts.getHost(targetIndex).updateTimeStamp(System.currentTimeMillis()); 
+				hosts.getHost(targetIndex).updateActiveStatus(true); 
 				
 				// to start, get the server IP address
-				String serverIP = hostList.getServerIP();
+				String serverIP = hosts.getServerIP();
 				// update the server status of the server
-				hostList.getHost(hostList.getHostbyIP(serverIP)).updateServerStatus(true);
+				hosts.getHost(hosts.getHostbyIP(serverIP)).updateServerStatus(true);
 				System.out.println("Done probing, server found: " + serverIP + "\n");
 				
 				// when this host is a server
 				while (serverIP.equals(myIP.toString().substring(1)))
 				{
-					for (int index1 = 0; index1 < hostList.getHostListSize(); index1++)
+					for (int index1 = 0; index1 < hosts.getHostListSize(); index1++)
 					{
 						// check which clients are active and update their active status accordingly
-						if (!hostList.getHost(index1).getIPAddress().equals(serverIP) && 
-								hostList.getHost(index1).getTimeStamp() <=
+						if (!hosts.getHost(index1).getIPAddress().equals(serverIP) && 
+								hosts.getHost(index1).getTimeStamp() <=
 								System.currentTimeMillis() - 30000)
 						{
-							hostList.getHost(index1).updateActiveStatus(false);	
+							hosts.getHost(index1).updateActiveStatus(false);	
 						}
-						System.out.println(hostList.getHostSummary(index1));
+						System.out.println(hosts.getHostSummary(index1));
 					}
 					
 					// send the list of IPs and their server status to all clients
-					for (int index1 = 0; index1 < hostList.getHostListSize(); index1++)
+					for (int index1 = 0; index1 < hosts.getHostListSize(); index1++)
 					{
-						if (!hostList.getHost(index1).getIPAddress().equals(serverIP))
+						if (!hosts.getHost(index1).getIPAddress().equals(serverIP))
 						{
-							String currentClient = hostList.getHost(index1).getIPAddress();
+							String currentClient = hosts.getHost(index1).getIPAddress();
 							InetAddress destIP = InetAddress.getByName(currentClient);
 							// send list of packets containing IPs and their server status by sending each packet separately 
-							for (int index2 = 0; index2 < hostList.getHostListSize(); index2++)
+							for (int index2 = 0; index2 < hosts.getHostListSize(); index2++)
 							{
-								// only active hostList' packet to a client
-								if(hostList.getHost(index2).getActiveStatus())
+								// only active hosts' packet to a client
+								if(hosts.getHost(index2).getActiveStatus())
 								{
-									String IP = hostList.getHost(index2).getIPAddress();
-									String isServer = String.valueOf(hostList.getHost(index2).getServerStatus());
+									String IP = hosts.getHost(index2).getIPAddress();
+									String isServer = String.valueOf(hosts.getHost(index2).getServerStatus());
 									String message = IP + " " + isServer;
 									byte[] messageToByte = message.getBytes();
 									
@@ -110,7 +110,7 @@ public class SendThread implements Runnable
 					Thread.sleep(timer.nextInt(30000));
 				}
 				
-				Host server = hostList.getHost(hostList.getHostbyIP(serverIP));
+				Host server = hosts.getHost(hosts.getHostbyIP(serverIP));
 				boolean serverDown = false;
 				
 				// the host is the client
@@ -128,8 +128,7 @@ public class SendThread implements Runnable
 							destIP, 9876);
 					socket.send(IPPacket);
 					
-					hostList.displayList();
-					System.out.print("My info sent to server at: ");
+					System.out.print("Info sent to server at: ");
 					DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy/MM/dd HH:mm:ss");
 					LocalDateTime now = LocalDateTime.now();
 					System.out.println(dtf.format(now));
@@ -141,8 +140,8 @@ public class SendThread implements Runnable
 				}
 				
 				// server is down
-				hostList.getHost(hostList.getHostbyIP(serverIP)).updateActiveStatus(false);
-				hostList.getHost(hostList.getHostbyIP(serverIP)).updateServerStatus(false);
+				hosts.getHost(hosts.getHostbyIP(serverIP)).updateActiveStatus(false);
+				hosts.getHost(hosts.getHostbyIP(serverIP)).updateServerStatus(false);
 			}
 		}
 		catch (SocketException e)
