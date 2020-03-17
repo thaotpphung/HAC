@@ -29,7 +29,7 @@ public class PeerList {
 		peerList.add(peer);
 	}
 	
-	public Peer getPeerInfo(int index)
+	public Peer getPeer(int index)
 	{
 		return peerList.get(index);
 	}
@@ -69,7 +69,7 @@ public class PeerList {
 		return socket;
 	}
 	
-	public String getPeerStatus(int index)
+	public String getPeerSummary(int index)
 	{
 		return peerList.get(index).toString();
 	}

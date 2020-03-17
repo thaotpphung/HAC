@@ -5,6 +5,8 @@ import java.net.DatagramPacket;
 import java.net.DatagramSocket;
 import java.net.InetAddress;
 import java.net.SocketException;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.Random;
 
 public class SendThread implements Runnable
@@ -28,35 +30,38 @@ public class SendThread implements Runnable
 		{	
 			while (true)
 			{
-				//iterates through ip addresses
-				for (int index1 = 0; index1 < peer.getListSize(); index1++)
+				//iterates through IP addresses
+				for (int index = 0; index < peer.getListSize(); index++)
 				{
-					// peer not active
-					if (peer.getPeerInfo(index1).getTimeStamp() <= System.currentTimeMillis() - 30000)
+					// check if peer is still active, update peer status accordingly
+					if (peer.getPeer(index).getTimeStamp() <= System.currentTimeMillis() - 30000)
 					{
-						peer.updatePeerStatus(index1, false);
+						peer.updatePeerStatus(index, false);
 					}
 					
-					// print out the summary of the selective peer info (ip address and status)
-	            	System.out.println(peer.getPeerStatus(index1));
+					// print out the summary of the selective peer info (IP address and status)
+	            	System.out.println(peer.getPeerSummary(index));
 					
-	            	// send my peer info if the selected peer is active
-					// if (peer.getPeerInfo(index1).getStatus())
-					// {
-						String current = peer.getPeerInfo(index1).getIPAddress();
-						InetAddress destIP = InetAddress.getByName(current);
-						
-						String sentence = myIP.toString();
-						byte[] data = sentence.getBytes();
+	            	// if the peer is active, send my IP to that peer
+					if (peer.getPeer(index).getStatus())
+					{
+						String currentPeer = peer.getPeer(index).getIPAddress();
+						InetAddress destIP = InetAddress.getByName(currentPeer);
+					
+						byte[] data = myIP.toString().getBytes();
 						DatagramPacket sendPacket = new DatagramPacket(data, data.length, destIP, 9876);
 						socket.send(sendPacket);
-					// }
+					}
 				}
 				
+				System.out.print("Finished sending my IP to other peers at: ");
+				DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy/MM/dd HH:mm:ss");
+				LocalDateTime now = LocalDateTime.now();
+				System.out.println(dtf.format(now));
 				System.out.println();
-				//sleeps a random amount of time from 0-30 seconds
-				Thread.sleep(timer.nextInt(30000));
 				
+				// sleeps a random amount of time from 0-30 seconds before send again
+				Thread.sleep(timer.nextInt(30000));				
 			}
 		}
 		catch (SocketException e) 

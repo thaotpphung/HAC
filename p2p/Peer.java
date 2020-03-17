@@ -9,7 +9,7 @@ public class Peer {
 	{
 		this.IP = IP;
 		this.timeStamp = timeStamp;
-		isActive = true;
+		isActive = false;
 	}
 
 	public String getIPAddress()
@@ -39,6 +39,6 @@ public class Peer {
 	
 	public String toString()
 	{
-		return new String(IP + " " + isActive);
+		return new String("Peer " + IP +  " " + (isActive ? "Active" : "Inactive"));
 	}
 }

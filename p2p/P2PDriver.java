@@ -9,7 +9,7 @@ public class P2PDriver {
 	public static void main(String[] args) {
 		try {
 			// read IP and ID list from file
-			File file = new File("/Users/annie/truman/network/HACproject/src/p2p/test.txt");
+			File file = new File("/Users/annie/truman/network/HACproject/HAC/src/p2p/test.txt");
 			Scanner s = new Scanner(file);
 			String myIP;
 			String inputIP;
@@ -23,7 +23,7 @@ public class P2PDriver {
 			}
 			
 			s.close();
-			System.out.println("Completed reading; will start Peer To Peer shortly.");
+			System.out.println("Completed reading; will start Peer To Peer shortly. \n");
 
 			Thread sender = new Thread(new SendThread(peerList, InetAddress.getByName(myIP)));
 			Thread receiver = new Thread(new ReceiveThread(peerList));
