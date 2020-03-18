@@ -8,6 +8,7 @@ import java.net.SocketException;
 
 /**
  * A Receiver Thread to receive IP address of other peer
+ * @author Robert Masek, Sua "Joshua" Lee, Thao Phung
  * @version 3/16/2020
  */
 public class ReceiveThread implements Runnable
