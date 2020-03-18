@@ -1,4 +1,0 @@
-<Your IP Address>
-<Host 1 IP Address> <ID>
-<Host 2 IP Address> <ID>
-...
