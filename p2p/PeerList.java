@@ -5,6 +5,7 @@ import java.util.ArrayList;
 
 /**
  * A class representing the list of peers, with relevant operations
+ * @author Robert Masek, Sua "Joshua" Lee, Thao Phung
  * @version 3/16/2020
  */
 public class PeerList {

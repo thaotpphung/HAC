@@ -2,6 +2,7 @@ package p2p;
 
 /**
 * This class represents a Peer, including its relevant information and operations
+* @author Robert Masek, Sua "Joshua" Lee, Thao Phung
 * @version 3/16/2020
 */
 public class Peer {
