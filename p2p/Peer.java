@@ -23,7 +23,6 @@ public class Peer {
 		this.IP = IP;
 		this.timeStamp = timeStamp;
 		isActive = false;
-		
 		this.flag = 0; // 0 is server-client mode
 		this.version = 1.0; // this is the first version
 		this.reserved = null; // for future development
