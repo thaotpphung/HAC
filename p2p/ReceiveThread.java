@@ -45,7 +45,7 @@ public class ReceiveThread implements Runnable
             	InetAddress otherIP = incomingPacket.getAddress();
 			                
             	// update received peer's time stamp and active status
-            	targetIndex = peer.searchPeerWithIP(otherIP.toString().substring(1));
+            	targetIndex = peer.getPeerByIP(otherIP.toString().substring(1));
             	peer.updatePeerTimestamp(targetIndex, System.currentTimeMillis());
             	peer.updatePeerStatus(targetIndex, true);
         	}

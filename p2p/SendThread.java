@@ -11,7 +11,7 @@ import java.util.Random;
 
 /**
  * Sender Thread to send notification to other peers
- * 
+ * @author Robert Masek, Sua "Joshua" Lee, Thao Phung
  * @version 3/16/2020
  */
 public class SendThread implements Runnable {
@@ -45,7 +45,6 @@ public class SendThread implements Runnable {
 					if (currentPeer.getTimeStamp() <= System.currentTimeMillis() - 30000) {
 						peerList.updatePeerStatus(index, false);
 					}
-
 					// print out the summary of the selective peer (IP address and status)
 					System.out.println(peerList.getPeerSummary(index));
 					
@@ -60,8 +59,7 @@ public class SendThread implements Runnable {
 				System.out.print("Finished sending my IP to other peers at: ");
 				DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy/MM/dd HH:mm:ss");
 				LocalDateTime now = LocalDateTime.now();
-				System.out.println(dtf.format(now));
-				System.out.println();
+				System.out.println(dtf.format(now) +"\n");
 
 				// sleeps a random amount of time from 0-30 seconds before send again
 				Thread.sleep(timer.nextInt(30000));
