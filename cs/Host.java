@@ -10,7 +10,6 @@ public class Host
 	private String IP;
 	private long timeStamp;
 	private boolean isActive;
-	private int idNumber;
 	private boolean isServer;
 	private int flag;
 	private double version;
@@ -22,11 +21,12 @@ public class Host
 	 * @param timeStamp the time when the host information was received or when it first become active
 	 * @param id a number unique to each host
 	 */
-	public Host(String IP, long timeStamp, int id)
+	public Host(String IP, long timeStamp)
+//	int id
 	{
 		this.IP = IP;
 		this.timeStamp = timeStamp;
-		this.idNumber = id;
+//		this.idNumber = id;
 		isActive = false;
 		isServer = false;
 		this.flag = 1; // 1 is server-client mode
@@ -77,15 +77,6 @@ public class Host
 	public void updateActiveStatus(boolean status)
 	{
 		isActive = status;
-	}
-	
-	/**
-	 * get the id of the host
-	 * @return the id of the host
-	 */
-	public int getID()
-	{
-		return idNumber;
 	}
 	
 	/**

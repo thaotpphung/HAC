@@ -59,12 +59,12 @@ public class ReceiveThread implements Runnable {
 					// if the sender is the server
 					if (sendHost.getServerStatus())
 					{
-						// if the receiving package is not the server 
+						// if the receiving package is not a server 
 						// this means that the sender is a server and this host is a client, the received package is another client
 						// update the active status of the received client only
 						if (!receivedHost.getServerStatus())
 						{
-							receivedHost.updateActiveStatus(  (isActive.startsWith("true")) ? true : false  ); 
+							receivedHost.updateActiveStatus((isActive.startsWith("true")) ? true : false); 
 						}
 						// else, the received package is the server
 						else { 

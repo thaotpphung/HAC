@@ -24,7 +24,6 @@ public class CSDriver
 			Scanner s = new Scanner(file);
 			String senderIP;
 			String inputIP;
-			int id;
 			
 			HostList hosts = new HostList();
 			
@@ -32,8 +31,7 @@ public class CSDriver
 			while (s.hasNext())
 			{
 				inputIP = s.next();
-				id = s.nextInt();
-				hosts.addHost(new Host(inputIP, System.currentTimeMillis() + 35000, id));
+				hosts.addHost(new Host(inputIP, System.currentTimeMillis() + 35000));
 			}
 			
 			input.close();
