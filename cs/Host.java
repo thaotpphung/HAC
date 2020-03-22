@@ -22,11 +22,9 @@ public class Host
 	 * @param id a number unique to each host
 	 */
 	public Host(String IP, long timeStamp)
-//	int id
 	{
 		this.IP = IP;
 		this.timeStamp = timeStamp;
-//		this.idNumber = id;
 		isActive = false;
 		isServer = false;
 		this.flag = 1; // 1 is server-client mode
