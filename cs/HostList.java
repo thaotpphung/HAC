@@ -152,6 +152,9 @@ public class HostList
 		return hostList.get(index).getActiveStatus() ? "Active" : "Inactive";
 	}
 	
+	/**
+	 * display the information of all host in the list
+	 */
 	public  void displayList() {
 		for (int index = 0; index < hostList.size(); index++)
 		{

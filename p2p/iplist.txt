@@ -1,3 +1,5 @@
-192.168.1.110
-192.168.1.108
-192.168.1.112
+<this host's IP>
+<other host's IP>
+<other host's IP>
+..
+<other host's IP>

@@ -1,4 +1,2 @@
-192.168.1.110
-192.168.1.108
-192.168.1.110
-192.168.1.112
+<this host's IP>
+<IP list as in "How to test the code" in the report>
