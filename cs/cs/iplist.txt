@@ -1,2 +1,0 @@
-<this host's IP>
-<IP list as in "How to test the code" in the report>
